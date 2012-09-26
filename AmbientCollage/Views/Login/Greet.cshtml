@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Login or Signup!  (it's free)</h2>
+
+<script type="text/ecmascript" language="ecmascript">
+
+    $(document).ready(function () {
+        $('#lnkCreateUser').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Login/Create",
+                data: {
+                  userName: $('#username').val(),
+                  email: $('#email').val(),
+                  password: $('#password').val()
+                }
+            });
+        });
+    });
+
+</script>
+
+@using (Html.BeginForm())
+{
+    <p>Email Address: @Html.TextBox("email", "email")</p>
+    <p>UserName: @Html.TextBox("username","username")</p>
+    <p>Password: @Html.TextBox("password","password")</p>
+    
+    <a id="lnkCreateUser">Create User</a>
+}
