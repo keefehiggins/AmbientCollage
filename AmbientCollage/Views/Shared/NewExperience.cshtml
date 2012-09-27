@@ -1,0 +1,24 @@
+﻿@model AmbientCollage.Models.Experience
+
+@using (Html.BeginForm("CreateNewExperience", "Home"))
+{
+    <fieldset>
+        <legend>Music Details:</legend>
+        <p>Link: @Html.TextBoxFor(x => x.Foreground.LinkUrl)</p>
+        <p>Description: @Html.TextAreaFor(x => x.Foreground.Description)</p>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Background Sounds Details:</legend>
+        <p>Link: @Html.TextBoxFor(x => x.Background.LinkUrl)</p>
+        <p>Description: @Html.TextAreaFor(x => x.Background.Description)</p>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Image Details:</legend>
+        <p>Link: @Html.TextBoxFor(x => x.Visuals.LinkUrl)</p>
+        <p>Description: @Html.TextAreaFor(x => x.Visuals.Description)</p>
+    </fieldset>
+    
+    <input type="submit" value="Create New Experience" />
+}

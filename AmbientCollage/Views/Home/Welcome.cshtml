@@ -5,4 +5,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script type="text/ecmascript" language="ecmascript">
+    $.ajax({
+        url: "Home/LoadUserExperiences",
+        data: {
+            UserId: $('#id').val()
+        },
+        method: "GET",
+        success: function (data) {
+            
+        }
+    });
+</script>
+
+@Html.HiddenFor(x => x.id)
+
 <h2>Welcome @Model.UserName!</h2>
+
+<h3>Favourite Experiences List</h3>
+<ul>
+    @foreach (var exp in Model.Favorites)
+    {
+        <li>
+            @Html.ActionLink(exp.Description, "LoadExperience", exp.id)
+        </li>
+    }
+</ul>
+
+@Html.Partial("NewExperience", new AmbientCollage.Models.Experience());
+
+<h3>My Experiences</h3>
+<div id="experienceList">
+
+</div>

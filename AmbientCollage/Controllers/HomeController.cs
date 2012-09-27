@@ -43,5 +43,19 @@ namespace AmbientCollage.Controllers
             return View("../Home/Welcome", createdUser);
         }
 
+        [HttpPost]
+        public ActionResult CreateNewExperience(Experience experience)
+        {
+            experience.Creator = (User)HttpContext.Session["CurrentUser"];
+            dal.AddExperience(experience);
+            return View("../Home/Welcome", experience.Creator);
+        }
+
+        [HttpGet]
+        public List<Experience> LoadUserExperiences(Guid userId)
+        {
+            List<Experience> allExp = dal.FindExperiences("").ToList();
+            return allExp;
+        }
     }
 }

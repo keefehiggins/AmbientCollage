@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AmbientCollage.Models;
+using AmbientCollage.Abstractions;
 
 namespace AmbientCollage.Controllers
 {
     public class AdminController : Controller
     {
+        DataAccessLayer dal = new DataAccessLayer(new MongoDataAccessLayer(new SimpleSecurity()));
         //
         // GET: /Admin/
 
@@ -15,6 +18,5 @@ namespace AmbientCollage.Controllers
         {
             return View();
         }
-
     }
 }

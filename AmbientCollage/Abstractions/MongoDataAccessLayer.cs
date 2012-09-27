@@ -180,6 +180,13 @@ namespace AmbientCollage.Abstractions
             links.Insert(dehydratedExperience);
         }
 
+        public void AddExperience(Experience experience)
+        {
+            MongoCollection<ShortExperience> links = db.GetCollection<ShortExperience>("Experiences");
+            ShortExperience dehydratedExperience = new ShortExperience(experience);
+            links.Insert(dehydratedExperience);
+        }
+
         public IEnumerable<Experience> FindExperiences(string searchString)
         {
             List<Experience> returnMe = null;

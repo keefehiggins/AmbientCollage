@@ -251,13 +251,16 @@
     <Content Include="Views\Home\Welcome.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\FavoriteExperiences.cshtml" />
+    <Content Include="Views\Shared\ExperienceList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\NewAudioLink.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\NewImageLink.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\NewExperience.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,8 @@
+﻿@model List<AmbientCollage.Models.Experience>
+
+<ul id="favExperiences">
+@foreach (AmbientCollage.Models.Experience exp in Model)
+{
+    <li>@exp.Description</li>
+}
+</ul>
