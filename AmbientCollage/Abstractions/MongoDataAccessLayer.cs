@@ -83,18 +83,26 @@ namespace AmbientCollage.Abstractions
             return returnMe;
         }
 
-        public bool PerformLogin(string userName, string password)
+        public User GetUserByEmail(string email)
         {
-            User toLogin = GetUserByName(userName);
+            User returnMe = null;
+            MongoCollection<User> users = db.GetCollection<User>("Users");
+            var query = Query.EQ("Email", email);
+            returnMe = users.Find(query).FirstOrDefault();
+            return returnMe;
+        }
+
+        public User PerformLogin(string email, string password)
+        {
+            User toLogin = GetUserByEmail(email);
 
             if (toLogin.PasswordHash == securityLayer.EncryptPassword(password))
             {
-                securityLayer.SetCurrentUser(toLogin);
-                return true;
+                return toLogin;
             }
             else
             {
-                return false;
+                return null;
             }
 
             throw new NotImplementedException();

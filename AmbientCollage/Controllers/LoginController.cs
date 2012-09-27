@@ -4,11 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AmbientCollage.Abstractions;
+using AmbientCollage.Models;
 
 namespace AmbientCollage.Controllers
 {
     public class LoginController : Controller
     {
+
+        DataAccessLayer dal = new DataAccessLayer(new MongoDataAccessLayer(new SimpleSecurity()));
         //
         // GET: /Login/
 
@@ -17,14 +20,15 @@ namespace AmbientCollage.Controllers
             return View("Greet");
         }
 
-        public ActionResult Create(string userName, string email, string password)
+        [HttpGet]
+        public string DoesUserExist(string email)
         {
-            DataAccessLayer dal = new DataAccessLayer(new MongoDataAccessLayer(new SimpleSecurity()));
+            User find = dal.GetUserByEmail(email);
 
-            dal.CreateNewUser(userName, email, password);
-
-            return View();
+            if (find != null)
+                return find.UserName;
+            else
+                return null;
         }
-
     }
 }

@@ -8,6 +8,11 @@ namespace AmbientCollage.Models
     [Serializable]
     public class ImageLink
     {
+        public ImageLink()
+        {
+
+        }
+
         public ImageLink(string url, string description, string user)
         {
             LinkUrl = url;

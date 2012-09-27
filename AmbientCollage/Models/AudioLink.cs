@@ -10,6 +10,11 @@ namespace AmbientCollage.Models
     [Serializable]
     public class AudioLink
     {
+        public AudioLink()
+        {
+
+        }
+
         public AudioLink(string url, string description, string user, AudioLinkType type)
         {
             LinkUrl = url;

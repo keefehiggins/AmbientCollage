@@ -11,7 +11,8 @@ namespace AmbientCollage.Abstractions
         User GetCurrentUser();
         User GetUserByID(Guid userId);
         User GetUserByName(string userName);
-        bool PerformLogin(string userName, string password);
+        User GetUserByEmail(string email);
+        User PerformLogin(string email, string password);
         void CreateNewUser(string userName, string email, string password);
         
         void AddAudioLink(string link, User foundBy, string description, AudioLinkType audioType);
@@ -51,9 +52,14 @@ namespace AmbientCollage.Abstractions
             return internalDal.GetUserByName(userName);
         }
 
-        public bool PerformLogin(string userName, string password)
+        public User GetUserByEmail(string email)
         {
-            return internalDal.PerformLogin(userName, password);
+            return internalDal.GetUserByEmail(email);
+        }
+
+        public User PerformLogin(string email, string password)
+        {
+            return internalDal.PerformLogin(email, password);
         }
 
         public void CreateNewUser(string userName, string email, string password)

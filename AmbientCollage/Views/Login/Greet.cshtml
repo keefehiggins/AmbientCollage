@@ -1,33 +1,56 @@
-﻿@{
+﻿@model AmbientCollage.Models.User
+
+@{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Login or Signup!  (it's free)</h2>
 
+<style>
+    
+    .HiddenOnStart
+    {
+        display: none;
+    }
+    
+    a.ActionLink
+    {
+        font-size: 1.2em;
+        text-decoration: underline;
+        color: #333;
+        cursor: pointer;
+    }
+    
+    a.ActionLink:hover
+    {
+        color: #33B;
+    }
+
+</style>
+
 <script type="text/ecmascript" language="ecmascript">
 
-    $(document).ready(function () {
-        $('#lnkCreateUser').click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/Login/Create",
-                data: {
-                  userName: $('#username').val(),
-                  email: $('#email').val(),
-                  password: $('#password').val()
-                }
-            });
-        });
-    });
 
 </script>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("ReturningUser", "Home", FormMethod.Post))
 {
-    <p>Email Address: @Html.TextBox("email", "email")</p>
-    <p>UserName: @Html.TextBox("username","username")</p>
-    <p>Password: @Html.TextBox("password","password")</p>
+    <h2>Log in to your account</h2>
     
-    <a id="lnkCreateUser">Create User</a>
+    <p>Email Address: @Html.TextBoxFor(m => m.Email)</p>
+    <p>Password: @Html.PasswordFor(m => m.PasswordHash)</p>
+
+    <input type="submit" value="Log In!"/>
+}
+
+@using (Html.BeginForm("NewUser", "Home", FormMethod.Post))
+{
+    <h2>Create a new account</h2>
+    
+    <p>Email Address: @Html.TextBoxFor(m => m.Email)</p>
+    <p>UserName: @Html.TextBoxFor(m => m.UserName)</p>
+    <p>Password: @Html.PasswordFor(m => m.PasswordHash)</p>
+
+    <input type="submit" value="Sign Up"/>
 }

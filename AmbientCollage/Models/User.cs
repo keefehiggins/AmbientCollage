@@ -9,6 +9,11 @@ namespace AmbientCollage.Models
     [Serializable]
     public class User
     {
+        public User()
+        {
+
+        }
+
         public User(string userName, string passwordHash, string email)
         {
             UserName = userName;
@@ -23,4 +28,5 @@ namespace AmbientCollage.Models
         public string Email { get; set; }
         public List<Experience> Favorites { get; set; }
     }
+
 }

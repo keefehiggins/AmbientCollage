@@ -14,14 +14,5 @@ namespace AmbientCollage.Abstractions
             return FormsAuthentication.HashPasswordForStoringInConfigFile(password, "sha1");
         }
 
-        public void SetCurrentUser(Models.User currentUser)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Models.User GetCurrentUser()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

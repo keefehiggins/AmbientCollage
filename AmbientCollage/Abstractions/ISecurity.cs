@@ -9,8 +9,6 @@ namespace AmbientCollage.Abstractions
     public interface ISecurity
     {
         string EncryptPassword(string password);
-        void SetCurrentUser(User currentUser);
-        User GetCurrentUser();
     }
 
     public class Security: ISecurity
@@ -25,16 +23,6 @@ namespace AmbientCollage.Abstractions
         public string EncryptPassword(string password)
         {
             return internalSecurity.EncryptPassword(password);
-        }
-
-        public void SetCurrentUser(User currentUser)
-        {
-            internalSecurity.SetCurrentUser(currentUser);
-        }
-
-        public User GetCurrentUser()
-        {
-            return internalSecurity.GetCurrentUser();
         }
     }
 }

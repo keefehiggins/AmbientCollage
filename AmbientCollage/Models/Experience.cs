@@ -8,6 +8,11 @@ namespace AmbientCollage.Models
     [Serializable]
     public class Experience
     {
+        public Experience()
+        {
+
+        }
+
         public Experience(Dictionary<AudioLinkType, AudioLink> audio, ImageLink visual, User createdBy, string description)
         {
             Creator = createdBy;
