@@ -1,0 +1,7 @@
+﻿@model AmbientCollage.Models.AudioLink
+
+<fieldset>
+    <legend>AudioLink - @(Model.AudioType == AmbientCollage.Models.AudioLinkType.Music ? "Music" : "Background Noise")</legend>
+    <p>Url: @Html.TextBoxFor(m => m.LinkUrl)</p>
+    <p>Description: @Html.TextBoxFor(m => m.Description)</p>
+</fieldset>

@@ -1,0 +1,101 @@
+﻿@model AmbientCollage.Models.User
+
+@{
+    ViewBag.Title = "Welcome";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/ecmascript" language="ecmascript">
+
+    var currentlyPlaying = [];
+
+    function stopAllSounds()
+    {
+        for (var i = 0; i < currentlyPlaying.length; i++) {
+            currentlyPlaying[i].stop();
+        }
+    }
+
+
+
+    $(document).ready(function () {
+
+        $('#experienceList').on('click', '.BeginExperience', function () {
+
+            var clicked = $(this);
+            var musicLink = '/tracks/' + clicked.attr('musicLink');
+            var backgroundLink = '/tracks/' + clicked.attr('backgroundLink');
+
+
+            $('#centerContent').stop().animate(
+                { opacity: "0" },
+                500,
+                function () {
+                    $('#centerContent').css('background-image', 'url(' + clicked.attr("imagelink") + ')').stop().animate(
+                            { opacity: "1" },
+                            500,
+                            function () {
+
+                                //                                SC.get("/groups/55517/tracks", { limit: 1 }, function (tracks) {
+                                //                                    alert("Latest track: " + tracks[0].title);
+                                //                                });
+
+                                //Clear all current sounds before adding new ones.
+                                stopAllSounds();
+
+                                SC.stream(musicLink, function (sound) {
+                                    sound.play({
+                                        onfinish: stopAllSounds(),
+                                        volume: 60
+                                    });
+                                    currentlyPlaying.push(sound);
+                                });
+
+                                SC.stream(backgroundLink, function (sound) {
+                                    sound.play({ loops: 20 });
+                                    currentlyPlaying.push(sound);
+                                });
+
+
+
+                            }
+                        );
+                }
+            );
+        });
+
+        $.ajax({
+            url: "LoadUserExperiences",
+            cache: false,
+            data: {
+                userId: $('#id').val()
+            },
+            method: "GET",
+            success: function (data) {
+                $('#experienceList').html(data);
+            }
+        });
+
+    });
+
+</script>
+
+@Html.HiddenFor(x => x.id)
+
+@section Title{
+    Welcome @Model.UserName!  Here you can create new experiences, or enjoy already existing ones.
+}
+
+<div class="Left DisplayBox">
+    <h2>Create New Experience</h2>
+    <div id="newExperience">
+        @Html.Partial("NewExperience", new AmbientCollage.Models.Experience())
+    </div>
+</div>
+
+<div class="Right DisplayBox">
+    <h2 class="Right Clear">All Experiences</h2>
+    <div id="experienceList" class="Right Clear">
+
+    </div>
+</div>
