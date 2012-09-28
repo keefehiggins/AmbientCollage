@@ -69,7 +69,7 @@ namespace AmbientCollage.Abstractions
         {
             User returnMe = null;
             MongoCollection<User> users = db.GetCollection<User>("Users");
-            var query = Query.EQ("id", userId);
+            var query = Query.EQ("_id", userId);
             returnMe = users.Find(query).FirstOrDefault();
             return returnMe;
         }
@@ -115,11 +115,12 @@ namespace AmbientCollage.Abstractions
             users.Insert(toSave);
         }
 
-        public void AddAudioLink(string link, User foundBy, string description, AudioLinkType audioType)
+        public AudioLink AddAudioLink(string link, User foundBy, string description, AudioLinkType audioType)
         {
             MongoCollection<AudioLink> links = db.GetCollection<AudioLink>("AudioLinks");
             AudioLink toInsert = new AudioLink(link, description, foundBy.UserName, audioType);
             links.Insert(toInsert);
+            return toInsert;
         }
 
         public IEnumerable<AudioLink> FindAudioLinks(string searchString, AudioLinkType audioType)
@@ -139,16 +140,17 @@ namespace AmbientCollage.Abstractions
         {
             AudioLink returnMe = null;
             MongoCollection<AudioLink> users = db.GetCollection<AudioLink>("AudioLinks");
-            var query = Query.EQ("id", audioLinkId);
+            var query = Query.EQ("_id", audioLinkId);
             returnMe = users.Find(query).FirstOrDefault();
             return returnMe;
         }
 
-        public void AddImageLink(string link, User foundBy, string description)
+        public ImageLink AddImageLink(string link, User foundBy, string description)
         {
             MongoCollection<ImageLink> links = db.GetCollection<ImageLink>("ImageLinks");
             ImageLink toInsert = new ImageLink(link, description, foundBy.UserName);
             links.Insert(toInsert);
+            return toInsert;
         }
 
         public IEnumerable<ImageLink> FindImageLinks(string searchString)
@@ -168,7 +170,7 @@ namespace AmbientCollage.Abstractions
         {
             ImageLink returnMe = null;
             MongoCollection<ImageLink> links = db.GetCollection<ImageLink>("ImageLinks");
-            var query = Query.EQ("id", imageLinkId);
+            var query = Query.EQ("_id", imageLinkId);
             returnMe = links.Find(query).FirstOrDefault();
             return returnMe;
         }
@@ -183,6 +185,11 @@ namespace AmbientCollage.Abstractions
         public void AddExperience(Experience experience)
         {
             MongoCollection<ShortExperience> links = db.GetCollection<ShortExperience>("Experiences");
+
+            experience.Foreground = AddAudioLink(experience.Foreground.LinkUrl, experience.Creator, experience.Foreground.Description, AudioLinkType.Music);
+            experience.Background = AddAudioLink(experience.Background.LinkUrl, experience.Creator, experience.Background.Description, AudioLinkType.Background);
+            experience.Visuals = AddImageLink(experience.Visuals.LinkUrl, experience.Creator, experience.Visuals.Description);
+
             ShortExperience dehydratedExperience = new ShortExperience(experience);
             links.Insert(dehydratedExperience);
         }
@@ -194,7 +201,7 @@ namespace AmbientCollage.Abstractions
 
             returnMe = (from e in experiences.AsQueryable<ShortExperience>()
                         orderby e.id
-                        where e.Description.Contains(searchString)
+                        //where e.Description.Contains(searchString)
                         select rehydrateExperience(e)).ToList();
 
             return returnMe;

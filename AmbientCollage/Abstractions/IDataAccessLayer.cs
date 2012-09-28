@@ -14,12 +14,12 @@ namespace AmbientCollage.Abstractions
         User GetUserByEmail(string email);
         User PerformLogin(string email, string password);
         void CreateNewUser(string userName, string email, string password);
-        
-        void AddAudioLink(string link, User foundBy, string description, AudioLinkType audioType);
+
+        AudioLink AddAudioLink(string link, User foundBy, string description, AudioLinkType audioType);
         IEnumerable<AudioLink> FindAudioLinks(string searchString, AudioLinkType audioType);
         AudioLink GetAudioLinkById(Guid audioLinkId);
 
-        void AddImageLink(string link, User foundBy, string description);
+        ImageLink AddImageLink(string link, User foundBy, string description);
         IEnumerable<ImageLink> FindImageLinks(string searchString);
         ImageLink GetImageLinkById(Guid imageLinkId);
 
@@ -68,9 +68,9 @@ namespace AmbientCollage.Abstractions
             internalDal.CreateNewUser(userName, email, password);
         }
 
-        public void AddAudioLink(string link, User foundBy, string description, AudioLinkType audioType)
+        public AudioLink AddAudioLink(string link, User foundBy, string description, AudioLinkType audioType)
         {
-            internalDal.AddAudioLink(link, foundBy, description, audioType);
+            return internalDal.AddAudioLink(link, foundBy, description, audioType);
         }
 
         public IEnumerable<AudioLink> FindAudioLinks(string searchString, AudioLinkType audioType)
@@ -83,9 +83,9 @@ namespace AmbientCollage.Abstractions
             return internalDal.GetAudioLinkById(audioLinkId);
         }
 
-        public void AddImageLink(string link, User foundBy, string description)
+        public ImageLink AddImageLink(string link, User foundBy, string description)
         {
-            internalDal.AddImageLink(link, foundBy, description);
+            return internalDal.AddImageLink(link, foundBy, description);
         }
 
         public IEnumerable<ImageLink> FindImageLinks(string searchString)

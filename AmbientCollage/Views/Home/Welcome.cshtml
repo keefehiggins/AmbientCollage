@@ -6,16 +6,21 @@
 }
 
 <script type="text/ecmascript" language="ecmascript">
-    $.ajax({
-        url: "Home/LoadUserExperiences",
-        data: {
-            UserId: $('#id').val()
-        },
-        method: "GET",
-        success: function (data) {
-            
-        }
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "LoadUserExperiences",
+            cache: false,
+            data: {
+                userId: $('#id').val()
+            },
+            method: "GET",
+            success: function (data) {
+                $('#experienceList').html(data);
+            }
+        });
     });
+
 </script>
 
 @Html.HiddenFor(x => x.id)

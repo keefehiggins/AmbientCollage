@@ -52,10 +52,10 @@ namespace AmbientCollage.Controllers
         }
 
         [HttpGet]
-        public List<Experience> LoadUserExperiences(Guid userId)
+        public PartialViewResult LoadUserExperiences(Guid userId)
         {
             List<Experience> allExp = dal.FindExperiences("").ToList();
-            return allExp;
+            return PartialView("../Shared/ExperienceList", allExp);
         }
     }
 }
