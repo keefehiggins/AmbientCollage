@@ -145,7 +145,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\images\peacefulBackground.jpg" />
+    <Content Include="callback.html" />
+    <Content Include="Content\images\beachRelax.JPG" />
+    <Content Include="Content\sc-player-minimal.css" />
+    <Content Include="Content\sc-player-minimal\colors.css" />
+    <Content Include="Content\sc-player-minimal\img\pause-hover.png" />
+    <Content Include="Content\sc-player-minimal\img\pause.png" />
+    <Content Include="Content\sc-player-minimal\img\play-hover.png" />
+    <Content Include="Content\sc-player-minimal\img\play.png" />
+    <Content Include="Content\sc-player-minimal\standards.css" />
+    <Content Include="Content\sc-player-minimal\structure.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -217,6 +226,9 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\sc-player.js" />
+    <Content Include="Scripts\soundcloud.player.api.js" />
+    <Content Include="Scripts\soundmanager2-jsmin.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

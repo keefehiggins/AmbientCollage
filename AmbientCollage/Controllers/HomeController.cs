@@ -25,22 +25,31 @@ namespace AmbientCollage.Controllers
         }
 
         [HttpPost]
-        public ActionResult ReturningUser(User user)
+        public ViewResult ReturningUser(User user)
         {
             User setUser = dal.PerformLogin(user.Email, user.PasswordHash);
 
-            HttpContext.Session["CurrentUser"] = setUser;
+            if (setUser != null)
+            {
+                // login success!
+                HttpContext.Session["CurrentUser"] = setUser;
+                return View("Welcome", setUser);
+            }
+            else
+            {
+                return View("../Login");
+            }
 
-            return View("../Home/Welcome", setUser);
+            
         }
 
-        public ActionResult NewUser(User user)
+        public ViewResult NewUser(User user)
         {
             dal.CreateNewUser(user.UserName, user.Email, user.PasswordHash);
             User createdUser = dal.PerformLogin(user.Email, user.PasswordHash);
             HttpContext.Session["CurrentUser"] = createdUser;
 
-            return View("../Home/Welcome", createdUser);
+            return View("Welcome", createdUser);
         }
 
         [HttpPost]

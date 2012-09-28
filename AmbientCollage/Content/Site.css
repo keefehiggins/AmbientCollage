@@ -1,8 +1,8 @@
 ﻿body {
     font-size: .85em;
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
-    color: #232323;
-    background-color: #fff;
+    font-family: 'PT Sans Narrow', sans-serif;
+    color: #DDD;
+    background-color: #000;
 }
 
 header, footer, nav, section {
@@ -16,6 +16,7 @@ fieldset {
     border: 1px solid #ddd;
     padding: 0 1.4em 1.4em 1.4em;
     margin: 0 0 1.5em 0;
+    width: 300px;
 }
 
 legend {
@@ -35,6 +36,14 @@ textarea {
     margin: 0.5em 0 0 0;
 }
 
+a
+{
+    color: #484;
+}
+a:visited
+{
+    color: #666;
+}
 
 /* Styles for validation helpers
 -----------------------------------------------------------*/
@@ -58,4 +67,73 @@ textarea {
 
 .validation-summary-valid {
     display: none;
+}
+
+
+/* Custom Site-Wide Styles 
+------------------------------------------------------------*/
+
+#centerContent
+{
+    height: 70%;
+    min-height: 768px;
+    width: 100%;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    background-image: url('images/beachRelax.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.DisplayBox
+{
+    background-color: #020202;
+    border: 1px solid #222;
+    width: 400px;
+    padding: 10px;
+    Opacity: .9;
+}
+
+.DisplayBox h2
+{
+    
+}
+
+#titleContent
+{
+    font-size: 1.3em;
+}
+
+#titleContent h1
+{
+    font-size:1.2em;
+    text-align: center;
+    clear: both;
+}
+
+.Left
+{
+    float: left;
+}
+
+.Right
+{
+    float: right;
+}
+
+.Clear
+{
+    clear:both;
+}
+
+a.SnazzyLink
+{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a.SnazzyLink:hover
+{
+    color: #3C3;
 }

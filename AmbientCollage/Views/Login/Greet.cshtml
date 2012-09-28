@@ -5,8 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Login or Signup!  (it's free)</h2>
-
 <style>
     
     .HiddenOnStart
@@ -26,31 +24,44 @@
     {
         color: #33B;
     }
+    
+    #loginBox
+    {
+        
+    }
+    
+    #signupBox
+    {
+        text-align: right;
+    }
 
 </style>
 
-<script type="text/ecmascript" language="ecmascript">
-
-
-</script>
+@section Title{
+    Login or Signup!  (it's free)
+}
 
 @using (Html.BeginForm("ReturningUser", "Home", FormMethod.Post))
 {
-    <h2>Log in to your account</h2>
+    <div id="loginBox" class="DisplayBox Left">
+        <h2>Log in to your account</h2>
     
-    <p>Email Address: @Html.TextBoxFor(m => m.Email)</p>
-    <p>Password: @Html.PasswordFor(m => m.PasswordHash)</p>
+        <p>Email Address: @Html.TextBoxFor(m => m.Email)</p>
+        <p>Password: @Html.PasswordFor(m => m.PasswordHash)</p>
 
-    <input type="submit" value="Log In!"/>
+        <input type="submit" value="Log In!"/>
+    </div>
 }
 
 @using (Html.BeginForm("NewUser", "Home", FormMethod.Post))
 {
-    <h2>Create a new account</h2>
+    <div id="signupBox" class="DisplayBox Right">
+        <h2>Create a new account</h2>
     
-    <p>Email Address: @Html.TextBoxFor(m => m.Email)</p>
-    <p>UserName: @Html.TextBoxFor(m => m.UserName)</p>
-    <p>Password: @Html.PasswordFor(m => m.PasswordHash)</p>
+        <p>Email Address: @Html.TextBoxFor(m => m.Email)</p>
+        <p>UserName: @Html.TextBoxFor(m => m.UserName)</p>
+        <p>Password: @Html.PasswordFor(m => m.PasswordHash)</p>
 
-    <input type="submit" value="Sign Up"/>
+        <input type="submit" value="Sign Up"/>
+    </div>
 }

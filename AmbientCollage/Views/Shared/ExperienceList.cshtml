@@ -3,6 +3,14 @@
 <ul id="favExperiences">
 @foreach (AmbientCollage.Models.Experience exp in Model)
 {
-    <li>@exp.Foreground, @exp.Description</li>
+    <li>
+        
+        @exp.Description
+        <a class="BeginExperience SnazzyLink" 
+            imageLink="@exp.Visuals.LinkUrl" 
+            musicLink="@exp.Foreground.LinkUrl" 
+            backgroundLink="@exp.Background.LinkUrl"> - Begin Experience</a>
+    
+    </li>
 }
 </ul>

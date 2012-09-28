@@ -96,7 +96,7 @@ namespace AmbientCollage.Abstractions
         {
             User toLogin = GetUserByEmail(email);
 
-            if (toLogin.PasswordHash == securityLayer.EncryptPassword(password))
+            if (toLogin != null && toLogin.PasswordHash == securityLayer.EncryptPassword(password))
             {
                 return toLogin;
             }
@@ -104,8 +104,6 @@ namespace AmbientCollage.Abstractions
             {
                 return null;
             }
-
-            throw new NotImplementedException();
         }
 
         public void CreateNewUser(string userName, string email, string password)

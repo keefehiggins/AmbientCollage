@@ -7,7 +7,53 @@
 
 <script type="text/ecmascript" language="ecmascript">
 
+    var currentlyPlaying = [];
+
     $(document).ready(function () {
+
+        $('#experienceList').on('click', '.BeginExperience', function () {
+
+            var clicked = $(this);
+            var musicLink = '/tracks/' + clicked.attr('musicLink');
+            var backgroundLink = '/tracks/' + clicked.attr('backgroundLink');
+
+
+            $('#centerContent').stop().animate(
+                { opacity: "0" },
+                500,
+                function () {
+                    $('#centerContent').css('background-image', 'url(' + clicked.attr("imagelink") + ')').stop().animate(
+                            { opacity: "1" },
+                            500,
+                            function () {
+
+                                //                                SC.get("/groups/55517/tracks", { limit: 1 }, function (tracks) {
+                                //                                    alert("Latest track: " + tracks[0].title);
+                                //                                });
+
+                                //Clear all current sounds before adding new ones.
+                                for (var i = 0; i < currentlyPlaying.length; i++) {
+                                    currentlyPlaying[i].stop();
+                                }
+
+                                SC.stream(musicLink, function (sound) {
+                                    sound.play();
+                                    currentlyPlaying.push(sound);
+                                });
+
+                                SC.stream(backgroundLink, function (sound) {
+                                    sound.play();
+                                    currentlyPlaying.push(sound);
+                                });
+
+
+
+                            }
+                        );
+                }
+            );
+        });
+
         $.ajax({
             url: "LoadUserExperiences",
             cache: false,
@@ -19,27 +65,27 @@
                 $('#experienceList').html(data);
             }
         });
+
     });
 
 </script>
 
 @Html.HiddenFor(x => x.id)
 
-<h2>Welcome @Model.UserName!</h2>
+@section Title{
+    Welcome @Model.UserName!  Here you can create new experiences, or enjoy already existing ones.
+}
 
-<h3>Favourite Experiences List</h3>
-<ul>
-    @foreach (var exp in Model.Favorites)
-    {
-        <li>
-            @Html.ActionLink(exp.Description, "LoadExperience", exp.id)
-        </li>
-    }
-</ul>
+<div class="Left DisplayBox">
+    <h2>Create New Experience</h2>
+    <div id="newExperience">
+        @Html.Partial("NewExperience", new AmbientCollage.Models.Experience())
+    </div>
+</div>
 
-@Html.Partial("NewExperience", new AmbientCollage.Models.Experience());
+<div class="Right DisplayBox">
+    <h2 class="Right Clear">All Experiences</h2>
+    <div id="experienceList" class="Right Clear">
 
-<h3>My Experiences</h3>
-<div id="experienceList">
-
+    </div>
 </div>
