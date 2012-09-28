@@ -9,6 +9,15 @@
 
     var currentlyPlaying = [];
 
+    function stopAllSounds()
+    {
+        for (var i = 0; i < currentlyPlaying.length; i++) {
+            currentlyPlaying[i].stop();
+        }
+    }
+
+
+
     $(document).ready(function () {
 
         $('#experienceList').on('click', '.BeginExperience', function () {
@@ -32,17 +41,18 @@
                                 //                                });
 
                                 //Clear all current sounds before adding new ones.
-                                for (var i = 0; i < currentlyPlaying.length; i++) {
-                                    currentlyPlaying[i].stop();
-                                }
+                                stopAllSounds();
 
                                 SC.stream(musicLink, function (sound) {
-                                    sound.play();
+                                    sound.play({
+                                        onfinish: stopAllSounds(),
+                                        volume: 60
+                                    });
                                     currentlyPlaying.push(sound);
                                 });
 
                                 SC.stream(backgroundLink, function (sound) {
-                                    sound.play();
+                                    sound.play({ loops: 20 });
                                     currentlyPlaying.push(sound);
                                 });
 
