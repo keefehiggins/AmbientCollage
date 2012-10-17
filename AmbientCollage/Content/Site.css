@@ -137,3 +137,16 @@ a.SnazzyLink:hover
 {
     color: #3C3;
 }
+
+#favExperiences
+{
+    list-style: none;
+}
+
+#favExperiences li
+{
+    border: 1px solid #fff;
+    width: 280px;
+    padding: 10px;
+    margin-bottom: 2px;
+}

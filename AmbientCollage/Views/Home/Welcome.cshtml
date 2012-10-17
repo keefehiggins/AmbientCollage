@@ -46,13 +46,16 @@
                                 SC.stream(musicLink, function (sound) {
                                     sound.play({
                                         onfinish: stopAllSounds(),
-                                        volume: 60
+                                        volume: 30
                                     });
                                     currentlyPlaying.push(sound);
                                 });
 
                                 SC.stream(backgroundLink, function (sound) {
-                                    sound.play({ loops: 20 });
+                                    sound.play({
+                                        loops: 60,
+                                        volume: 100
+                                    });
                                     currentlyPlaying.push(sound);
                                 });
 
@@ -76,7 +79,10 @@
             }
         });
 
+//        $('Hidable').
+
     });
+
 
 </script>
 
@@ -86,7 +92,8 @@
     Welcome @Model.UserName!  Here you can create new experiences, or enjoy already existing ones.
 }
 
-<div class="Left DisplayBox">
+<div class="Left DisplayBox HideMe Hidable">
+    <a></a>
     <h2>Create New Experience</h2>
     <div id="newExperience">
         @Html.Partial("NewExperience", new AmbientCollage.Models.Experience())

@@ -7,9 +7,16 @@
         
         @exp.Description
         <a class="BeginExperience SnazzyLink" 
-            imageLink="@exp.Visuals.LinkUrl" 
-            musicLink="@exp.Foreground.LinkUrl" 
-            backgroundLink="@exp.Background.LinkUrl"> - Begin Experience</a>
+            imageLink="@exp.Visuals.LinkUrl"> - Begin Experience</a>
+
+        <ul class="SoundList">
+            @foreach (var sound in exp.Sounds)
+            {
+                <li soundLink="@sound.LinkUrl">
+                    @sound.Description
+                </li>
+            } 
+        </ul>
     
     </li>
 }

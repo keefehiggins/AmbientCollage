@@ -22,33 +22,34 @@ namespace AmbientCollage.Abstractions
             public ShortExperience(Experience toDehydrate)
             {
                 Creator = toDehydrate.Creator.id;
-                Foreground = toDehydrate.Foreground.id;
-                Background = toDehydrate.Background.id;
+                List<Guid> soundIDs = toDehydrate.Sounds.Select(x => x.id).ToList();
                 Visuals = toDehydrate.Visuals.id;
                 Description = toDehydrate.Description;
+                Share = toDehydrate.Share;
                 id = toDehydrate.id;
             }
 
             public Guid id { get; set; }
             public Guid Creator { get; set; }
-            public Guid Foreground { get; set; }
-            public Guid Background { get; set; }
+            public List<Guid> Sounds { get; set; }
             public Guid Visuals { get; set; }
             public string Description { get; set; }
+            public bool Share { get; set; }
         }
 
         private Experience rehydrateExperience(ShortExperience dehydrated)
         {
             User user = GetUserByID(dehydrated.Creator);
-            AudioLink foreground = GetAudioLinkById(dehydrated.Foreground);
-            AudioLink background = GetAudioLinkById(dehydrated.Background);
+            List<AudioLink> sounds = new List<AudioLink>();
+
+            if (dehydrated.Sounds != null)
+            {
+                sounds = dehydrated.Sounds.Select(x => GetAudioLinkById(x)).ToList();
+            }
+
             ImageLink visuals = GetImageLinkById(dehydrated.Visuals);
 
-            Dictionary<AudioLinkType, AudioLink> fullAudio= new Dictionary<AudioLinkType,AudioLink>();
-            fullAudio.Add(AudioLinkType.Music, foreground);
-            fullAudio.Add(AudioLinkType.Background, background);
-
-            Experience rehydrated = new Experience(fullAudio, visuals, user, dehydrated.Description);
+            Experience rehydrated = new Experience(sounds, visuals, user, dehydrated.Description, dehydrated.Share);
             rehydrated.id = dehydrated.id;
             return rehydrated;
         }
@@ -173,10 +174,10 @@ namespace AmbientCollage.Abstractions
             return returnMe;
         }
 
-        public void AddExperience(Dictionary<AudioLinkType, AudioLink> audioLinks, ImageLink imageLink, User builtBy, string description)
+        public void AddExperience(List<AudioLink> audioLinks, ImageLink imageLink, User builtBy, string description, bool share)
         {
             MongoCollection<ShortExperience> links = db.GetCollection<ShortExperience>("Experiences");
-            ShortExperience dehydratedExperience = new ShortExperience(new Experience(audioLinks, imageLink, builtBy, description));
+            ShortExperience dehydratedExperience = new ShortExperience(new Experience(audioLinks, imageLink, builtBy, description, share));
             links.Insert(dehydratedExperience);
         }
 
@@ -184,8 +185,12 @@ namespace AmbientCollage.Abstractions
         {
             MongoCollection<ShortExperience> links = db.GetCollection<ShortExperience>("Experiences");
 
-            experience.Foreground = AddAudioLink(experience.Foreground.LinkUrl, experience.Creator, experience.Foreground.Description, AudioLinkType.Music);
-            experience.Background = AddAudioLink(experience.Background.LinkUrl, experience.Creator, experience.Background.Description, AudioLinkType.Background);
+            List<AudioLink> savedSounds = new List<AudioLink>();
+            foreach (AudioLink sound in experience.Sounds ?? new List<AudioLink>())
+            {
+                savedSounds.Add(AddAudioLink(sound.LinkUrl, experience.Creator, sound.Description, sound.AudioType));
+            }
+            experience.Sounds = savedSounds;
             experience.Visuals = AddImageLink(experience.Visuals.LinkUrl, experience.Creator, experience.Visuals.Description);
 
             ShortExperience dehydratedExperience = new ShortExperience(experience);

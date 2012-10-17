@@ -23,7 +23,7 @@ namespace AmbientCollage.Abstractions
         IEnumerable<ImageLink> FindImageLinks(string searchString);
         ImageLink GetImageLinkById(Guid imageLinkId);
 
-        void AddExperience(Dictionary<AudioLinkType, AudioLink> audioLinks, ImageLink imageLink, User builtBy, string description);
+        void AddExperience(List<AudioLink> audioLinks, ImageLink imageLink, User builtBy, string description, bool share);
         void AddExperience(Experience experience);
         IEnumerable<Experience> FindExperiences(string searchString);
         Experience GetExperienceById(Guid experienceId);
@@ -98,9 +98,9 @@ namespace AmbientCollage.Abstractions
             return internalDal.GetImageLinkById(imageLinkId);
         }
 
-        public void AddExperience(Dictionary<AudioLinkType, AudioLink> audioLinks, ImageLink imageLink, User builtBy, string description)
+        public void AddExperience(List<AudioLink> audioLinks, ImageLink imageLink, User builtBy, string description, bool share)
         {
-            internalDal.AddExperience(audioLinks, imageLink, builtBy, description);
+            internalDal.AddExperience(audioLinks, imageLink, builtBy, description, share);
         }
 
         public void AddExperience(Experience experience)
