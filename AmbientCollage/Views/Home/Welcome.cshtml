@@ -142,38 +142,37 @@
         });
     }
 
-    var toggleHidable = function(targetElement, container,  hiddenBy){
-        if (hiddenBy.html() == '[ - ]')
-            {
-                var originalHeight = targetElement.height();
-                targetElement.attr("originalHeight", originalHeight);
+    var toggleHidable = function (targetElement, container, hiddenBy) {
+        if (hiddenBy.html() == '[ - ]') {
+            var originalHeight = targetElement.height();
+            targetElement.attr("originalHeight", originalHeight);
 
-                container.animate({
-                    width: '120px'
-                }, 500, function () {
-                     targetElement.animate({
-                        height: '0px',
-                        opacity: '0'
-                     }, 500);
-                     hiddenBy.html('[ + ]');
-                });
-            }
-            else
-            {
-                var originalHeight = targetElement.attr('originalHeight');
-
+            container.animate({
+                width: '120px'
+            }, 500, function () {
                 targetElement.animate({
-                    height: originalHeight + 'px',
-                    opacity: '1'
-                },500, function(){
-                    container.animate({
-                        width: '400px'
-                    }, 500, function () {
-                     
-                         hiddenBy.html('[ - ]');
-                    });
+                    height: '0px',
+                    opacity: '0'
+                }, 500);
+                hiddenBy.html('[ + ]');
+            });
+        }
+        else {
+            var originalHeight = targetElement.attr('originalHeight');
+
+            targetElement.animate({
+                height: originalHeight + 'px',
+                opacity: '1'
+            }, 500, function () {
+                container.animate({
+                    width: '400px'
+                }, 500, function () {
+
+                    hiddenBy.html('[ - ]');
+                    targetElement.css('height', 'auto');
                 });
-            }
+            });
+        }
     }
 
 
@@ -316,6 +315,7 @@
 <div id="rightMenu" class="Right DisplayBox">
     <a id="hideRightMenu">[ - ]</a>
     <h2 class="Right Clear">All Experiences</h2>
+    <a id="stopSounds" onclick="stopAllSounds();">Stop All Sounds</a>
     <div id="experienceList" class="Right Clear">
 
     </div>
