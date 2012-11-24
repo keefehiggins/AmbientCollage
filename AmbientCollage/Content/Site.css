@@ -150,3 +150,50 @@ a.SnazzyLink:hover
     padding: 10px;
     margin-bottom: 2px;
 }
+
+#favExperiences ul.SoundList li
+{
+    width: 80%;
+    border: none;
+    margin: 2px;
+    padding: 0px;
+}
+
+#favExperiences ul.SoundList
+{
+    list-style: none;
+    width: 60%;
+    float: left;
+}
+
+#favExperiences li .ImageThumbnail
+{
+    float: right;
+}
+
+div#leftMenu, div#rightMenu
+{
+    position: relative;
+    overflow: hidden;
+    min-height: 30px;
+}
+
+
+a#hideLeftMenu, a#hideRightMenu
+{
+    position: absolute;
+    color: #FFF;
+    cursor: pointer;
+}
+
+a#hideLeftMenu
+{
+    top: 10px;
+    right: 10px;
+}
+
+a#hideRightMenu
+{
+    top: 10px;
+    left: 10px;
+}

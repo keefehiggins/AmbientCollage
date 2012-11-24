@@ -11,6 +11,7 @@ namespace AmbientCollage.Controllers
     public class HomeController : Controller
     {
         DataAccessLayer dal = new DataAccessLayer(new MongoDataAccessLayer(new SimpleSecurity()));
+        //DataAccessLayer dal = new DataAccessLayer(new FakeDataAccessLayer(new SimpleSecurity()));
 
         //
         // GET: /Home/
@@ -39,8 +40,6 @@ namespace AmbientCollage.Controllers
             {
                 return View("../Login");
             }
-
-            
         }
 
         public ViewResult NewUser(User user)
@@ -53,11 +52,12 @@ namespace AmbientCollage.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateNewExperience(Experience experience)
+        public void CreateNewExperience(Experience experience)
         {
-            experience.Creator = (User)HttpContext.Session["CurrentUser"];
+            User currentUser = (User)HttpContext.Session["CurrentUser"];
+            experience.Creator = currentUser;
             dal.AddExperience(experience);
-            return View("../Home/Welcome", experience.Creator);
+            //return View("../Home/Welcome", experience.Creator);
         }
 
         [HttpGet]

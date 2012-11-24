@@ -22,7 +22,7 @@ namespace AmbientCollage.Abstractions
             public ShortExperience(Experience toDehydrate)
             {
                 Creator = toDehydrate.Creator.id;
-                List<Guid> soundIDs = toDehydrate.Sounds.Select(x => x.id).ToList();
+                Sounds = toDehydrate.Sounds.Select(x => x.id).ToList();
                 Visuals = toDehydrate.Visuals.id;
                 Description = toDehydrate.Description;
                 Share = toDehydrate.Share;
@@ -114,22 +114,22 @@ namespace AmbientCollage.Abstractions
             users.Insert(toSave);
         }
 
-        public AudioLink AddAudioLink(string link, User foundBy, string description, AudioLinkType audioType)
+        public AudioLink AddAudioLink(string link, User foundBy, string description)
         {
             MongoCollection<AudioLink> links = db.GetCollection<AudioLink>("AudioLinks");
-            AudioLink toInsert = new AudioLink(link, description, foundBy.UserName, audioType);
+            AudioLink toInsert = new AudioLink(link, description, foundBy.UserName);
             links.Insert(toInsert);
             return toInsert;
         }
 
-        public IEnumerable<AudioLink> FindAudioLinks(string searchString, AudioLinkType audioType)
+        public IEnumerable<AudioLink> FindAudioLinks(string searchString)
         {
             List<AudioLink> returnMe = null;
             MongoCollection<AudioLink> links = db.GetCollection<AudioLink>("AudioLinks");
 
             returnMe = (from l in links.AsQueryable<AudioLink>()
                         orderby l.id
-                        where l.Description.Contains(searchString) && ( l.AudioType == audioType || audioType == AudioLinkType.Any)
+                        where l.Description.Contains(searchString)
                         select l).ToList();
 
             return returnMe;
@@ -188,7 +188,7 @@ namespace AmbientCollage.Abstractions
             List<AudioLink> savedSounds = new List<AudioLink>();
             foreach (AudioLink sound in experience.Sounds ?? new List<AudioLink>())
             {
-                savedSounds.Add(AddAudioLink(sound.LinkUrl, experience.Creator, sound.Description, sound.AudioType));
+                savedSounds.Add(AddAudioLink(sound.LinkUrl, experience.Creator, sound.Description));
             }
             experience.Sounds = savedSounds;
             experience.Visuals = AddImageLink(experience.Visuals.LinkUrl, experience.Creator, experience.Visuals.Description);

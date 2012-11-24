@@ -124,6 +124,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\FakeDataAccessLayer.cs" />
     <Compile Include="Abstractions\IDataAccessLayer.cs" />
     <Compile Include="Abstractions\ISecurity.cs" />
     <Compile Include="Abstractions\MongoDataAccessLayer.cs" />

@@ -15,8 +15,8 @@ namespace AmbientCollage.Abstractions
         User PerformLogin(string email, string password);
         void CreateNewUser(string userName, string email, string password);
 
-        AudioLink AddAudioLink(string link, User foundBy, string description, AudioLinkType audioType);
-        IEnumerable<AudioLink> FindAudioLinks(string searchString, AudioLinkType audioType);
+        AudioLink AddAudioLink(string link, User foundBy, string description);
+        IEnumerable<AudioLink> FindAudioLinks(string searchString);
         AudioLink GetAudioLinkById(Guid audioLinkId);
 
         ImageLink AddImageLink(string link, User foundBy, string description);
@@ -68,14 +68,14 @@ namespace AmbientCollage.Abstractions
             internalDal.CreateNewUser(userName, email, password);
         }
 
-        public AudioLink AddAudioLink(string link, User foundBy, string description, AudioLinkType audioType)
+        public AudioLink AddAudioLink(string link, User foundBy, string description)
         {
-            return internalDal.AddAudioLink(link, foundBy, description, audioType);
+            return internalDal.AddAudioLink(link, foundBy, description);
         }
 
-        public IEnumerable<AudioLink> FindAudioLinks(string searchString, AudioLinkType audioType)
+        public IEnumerable<AudioLink> FindAudioLinks(string searchString)
         {
-            return internalDal.FindAudioLinks(searchString, audioType);
+            return internalDal.FindAudioLinks(searchString);
         }
 
         public AudioLink GetAudioLinkById(Guid audioLinkId)
@@ -118,5 +118,5 @@ namespace AmbientCollage.Abstractions
             return internalDal.GetExperienceById(experienceId);
         }
     }
-    
+
 }

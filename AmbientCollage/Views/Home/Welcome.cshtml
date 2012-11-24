@@ -8,24 +8,199 @@
 <script type="text/ecmascript" language="ecmascript">
 
     var currentlyPlaying = [];
+    var CurrentExperience;
 
-    function stopAllSounds()
-    {
+    function stopAllSounds() {
         for (var i = 0; i < currentlyPlaying.length; i++) {
             currentlyPlaying[i].stop();
         }
     }
 
 
+    function Experience() {
+
+        var Experience = {};
+
+        Experience.internalCurrent =
+            {
+                Description: "",
+                Visuals: {
+                    LinkUrl: "",
+                    Description: "",
+                    FoundByUsername: ""
+                },
+                Sounds: []
+            };
+
+        Experience.GetCurrent = function () {
+            return this.internalCurrent;
+        };
+
+        Experience.AddSound = function (toAdd) {
+            this.internalCurrent.Sounds.push(toAdd);
+            this.RefreshDisplay();
+        };
+
+        Experience.SetInfo = function (description) {
+            this.internalCurrent.Description = description;
+            this.RefreshDisplay();
+        };
+
+        Experience.SetVisuals = function (link, description) {
+            this.internalCurrent.Visuals.LinkUrl = link;
+            this.internalCurrent.Visuals.Description = description;
+            this.RefreshDisplay();
+        };
+
+        Experience.Clear = function () {
+            this.internalCurrent.Title = "";
+
+            this.internalCurrent.Visuals = {
+                LinkUrl: "",
+                Description: "",
+                FoundByUsername: ""
+            };
+
+            this.internalCurrent.Sounds = [];
+
+            this.RefreshDisplay();
+        };
+
+        Experience.RefreshDisplay = function () {
+            $('#ExperienceDesc').html(this.internalCurrent.Description);
+            $('#ExperienceImageDesc').html(this.internalCurrent.Visuals.Description);
+            $('#SoundMix').html('');
+            for (var i = 0; i < this.internalCurrent.Sounds.length; i++) {
+                $('#SoundMix').append('<li>' + this.internalCurrent.Sounds[i].Description + '</li>');
+            }
+        };
+
+        return Experience;
+    }
+
+
+    var addToExperience = function () {
+        $('#ErrorDescription').html('');
+
+        if (allSoundFieldsCompleted) {
+            CurrentExperience.AddSound(
+                {
+                    LinkUrl: $('#SoundCloudTrack').val(),
+                    Description: $('#AudioDescription').val()
+                }
+            );
+
+            $('#AudioDescription').val('');
+            $('#SoundCloudTrack').val('');
+        }
+        else {
+            $('#ErrorDescription').html('Please fill out all required fields to add an audio link.');
+        }
+    }
+
+    var allSoundFieldsCompleted = function () {
+        var allGood = true;
+        $('.SoundFieldSet input[type=text]').each(function (e) {
+            if (e.val() == "" || e.val() == null) {
+                allGood = false;
+            }
+        });
+        return allGood;
+    }
+
+    var saveExperience = function () {
+
+        var toSend = { experience: CurrentExperience.GetCurrent() };
+
+        $.ajax({
+            url: "CreateNewExperience",
+            type: "POST",
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(toSend),
+            success: function () {
+                loadExperiences();
+                CurrentExperience.Clear();
+            },
+            failure: function () {
+                alert("FAIL");
+            }
+        });
+    }
+
+    var loadExperiences = function () {
+        $.ajax({
+            url: "LoadUserExperiences",
+            cache: false,
+            data: {
+                userId: $('#id').val()
+            },
+            method: "GET",
+            success: function (data) {
+                $('#experienceList').html(data);
+            }
+        });
+    }
+
+    var toggleHidable = function(targetElement, container,  hiddenBy){
+        if (hiddenBy.html() == '[ - ]')
+            {
+                var originalHeight = targetElement.height();
+                targetElement.attr("originalHeight", originalHeight);
+
+                container.animate({
+                    width: '120px'
+                }, 500, function () {
+                     targetElement.animate({
+                        height: '0px',
+                        opacity: '0'
+                     }, 500);
+                     hiddenBy.html('[ + ]');
+                });
+            }
+            else
+            {
+                var originalHeight = targetElement.attr('originalHeight');
+
+                targetElement.animate({
+                    height: originalHeight + 'px',
+                    opacity: '1'
+                },500, function(){
+                    container.animate({
+                        width: '400px'
+                    }, 500, function () {
+                     
+                         hiddenBy.html('[ - ]');
+                    });
+                });
+            }
+    }
+
+
 
     $(document).ready(function () {
+
+        $('#hideLeftMenu').click(function () {
+            toggleHidable($('#newExperience'), $('#leftMenu'), $(this));
+        });
+
+        $('#hideRightMenu').click(function () {
+            toggleHidable($('#experienceList'), $('#rightMenu'), $(this));
+        });
+
+        CurrentExperience = Experience();
 
         $('#experienceList').on('click', '.BeginExperience', function () {
 
             var clicked = $(this);
-            var musicLink = '/tracks/' + clicked.attr('musicLink');
-            var backgroundLink = '/tracks/' + clicked.attr('backgroundLink');
+            var allLinks = [];
 
+            clicked.siblings('ul.SoundList').find('li').each(function () {
+                allLinks.push($(this).attr('soundlink'));
+            });
+
+            //            var musicLink = '/tracks/' + clicked.attr('musicLink');
+            //            var backgroundLink = '/tracks/' + clicked.attr('backgroundLink');
 
             $('#centerContent').stop().animate(
                 { opacity: "0" },
@@ -43,21 +218,37 @@
                                 //Clear all current sounds before adding new ones.
                                 stopAllSounds();
 
-                                SC.stream(musicLink, function (sound) {
-                                    sound.play({
-                                        onfinish: stopAllSounds(),
-                                        volume: 30
-                                    });
-                                    currentlyPlaying.push(sound);
-                                });
+                                for (var i = 0; i < allLinks.length; i++) {
 
-                                SC.stream(backgroundLink, function (sound) {
-                                    sound.play({
-                                        loops: 60,
-                                        volume: 100
+                                    var audioLink = '/tracks/' + allLinks[i];
+
+                                    SC.stream(audioLink, function (sound) {
+                                        sound.play({
+                                            //onfinish: stopAllSounds(),
+                                            loops: 60,
+                                            volume: 70
+                                        });
+                                        currentlyPlaying.push(sound);
                                     });
-                                    currentlyPlaying.push(sound);
-                                });
+                                }
+
+                                //                                clicked.each('.')
+
+                                //                                SC.stream(musicLink, function (sound) {
+                                //                                    sound.play({
+                                //                                        onfinish: stopAllSounds(),
+                                //                                        volume: 30
+                                //                                    });
+                                //                                    currentlyPlaying.push(sound);
+                                //                                });
+
+                                //                                SC.stream(backgroundLink, function (sound) {
+                                //                                    sound.play({
+                                //                                        loops: 60,
+                                //                                        volume: 100
+                                //                                    });
+                                //                                    currentlyPlaying.push(sound);
+                                //                                });
 
 
 
@@ -67,19 +258,7 @@
             );
         });
 
-        $.ajax({
-            url: "LoadUserExperiences",
-            cache: false,
-            data: {
-                userId: $('#id').val()
-            },
-            method: "GET",
-            success: function (data) {
-                $('#experienceList').html(data);
-            }
-        });
-
-//        $('Hidable').
+        loadExperiences();
 
     });
 
@@ -92,15 +271,50 @@
     Welcome @Model.UserName!  Here you can create new experiences, or enjoy already existing ones.
 }
 
-<div class="Left DisplayBox HideMe Hidable">
-    <a></a>
+<div id="leftMenu" class="Left DisplayBox HideMe Hidable">
+    <a id="hideLeftMenu">[ - ]</a>
     <h2>Create New Experience</h2>
     <div id="newExperience">
-        @Html.Partial("NewExperience", new AmbientCollage.Models.Experience())
+            
+        <div id="ErrorDescription"></div>
+
+        <fieldset id="OverviewFieldSet">
+            <legend>Experience Info:</legend>
+            <p>Title: <input type="text" id="ExperienceTitle" onchange="CurrentExperience.SetInfo($('#ExperienceTitle').val());" /></p>
+        </fieldset>
+
+        <fieldset id="ImageFieldSet">
+            <legend>Image Details:</legend>
+            <p>Image URL: <input type="text" id="ImageURL" onchange="CurrentExperience.SetVisuals($('#ImageURL').val(), $('#ImageDescription').val());"/></p>
+            <p>Description:  <input type="text" id="ImageDescription" onchange="CurrentExperience.SetVisuals($('#ImageURL').val(), $('#ImageDescription').val());" /></p>
+        </fieldset>
+
+        <fieldset id="SoundFieldSet">
+            <legend>Audio Link Details:</legend>
+            <p>SoundCloud Track #: <input type="text" id="SoundCloudTrack" /></p>
+            <p>Description: <input type="text" id="AudioDescription" /></p>
+            <a id="AddSound" onclick="addToExperience();">Add To Sounds</a>
+        </fieldset>
+
+        <fieldset class="ExperienceFieldSet">
+            <legend>Experience so far:</legend>
+            <h3 id="ExperienceDesc"></h3>
+            Background Image:
+            <p id="ExperienceImageDesc"></p>
+            Simultaneous Audio:
+            <ul id="SoundMix">
+                
+            </ul>
+            <a id="SaveExperience" onclick="saveExperience();">Create This Experience</a>
+        </fieldset>
+
+
+        @*@Html.Partial("NewExperience", new AmbientCollage.Models.Experience())*@
     </div>
 </div>
 
-<div class="Right DisplayBox">
+<div id="rightMenu" class="Right DisplayBox">
+    <a id="hideRightMenu">[ - ]</a>
     <h2 class="Right Clear">All Experiences</h2>
     <div id="experienceList" class="Right Clear">
 
