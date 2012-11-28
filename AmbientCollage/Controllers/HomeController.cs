@@ -8,7 +8,7 @@ using AmbientCollage.Abstractions;
 
 namespace AmbientCollage.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : UserAwareController
     {
         DataAccessLayer dal = new DataAccessLayer(new MongoDataAccessLayer(new SimpleSecurity()));
         //DataAccessLayer dal = new DataAccessLayer(new FakeDataAccessLayer(new SimpleSecurity()));
@@ -17,10 +17,8 @@ namespace AmbientCollage.Controllers
         // GET: /Home/
         public ActionResult Welcome()
         {
-            User currentUser = (User)HttpContext.Session["CurrentUser"];
-
-            if (currentUser != null)
-                return View(currentUser);
+            if (CurrentUser != null)
+                return View(CurrentUser);
             else
                 return View("../Login");
         }
@@ -33,8 +31,8 @@ namespace AmbientCollage.Controllers
             if (setUser != null)
             {
                 // login success!
-                HttpContext.Session["CurrentUser"] = setUser;
-                return View("Welcome", setUser);
+                CurrentUser = setUser;
+                return View("Welcome", CurrentUser);
             }
             else
             {
@@ -45,26 +43,30 @@ namespace AmbientCollage.Controllers
         public ViewResult NewUser(User user)
         {
             dal.CreateNewUser(user.UserName, user.Email, user.PasswordHash);
-            User createdUser = dal.PerformLogin(user.Email, user.PasswordHash);
-            HttpContext.Session["CurrentUser"] = createdUser;
-
-            return View("Welcome", createdUser);
+            CurrentUser = dal.PerformLogin(user.Email, user.PasswordHash);
+            return View("Welcome", CurrentUser);
         }
 
         [HttpPost]
         public void CreateNewExperience(Experience experience)
         {
-            User currentUser = (User)HttpContext.Session["CurrentUser"];
-            experience.Creator = currentUser;
+            experience.Creator = CurrentUser;
             dal.AddExperience(experience);
             //return View("../Home/Welcome", experience.Creator);
         }
 
         [HttpGet]
-        public PartialViewResult LoadUserExperiences(Guid userId)
+        public PartialViewResult LoadUserExperiences(Guid userId, bool onlyMine)
         {
-            List<Experience> allExp = dal.FindExperiences("").ToList();
+            List<Experience> allExp = dal.FindExperiences("").Where(x => onlyMine && x.Creator.id == userId || !onlyMine).ToList();
             return PartialView("../Shared/ExperienceList", allExp);
+        }
+
+        [HttpPost]
+        public void DeleteUserExperience(Guid targetId)
+        {
+            //Guid targetId = new Guid();
+            dal.DeleteExperience(targetId);
         }
     }
 }

@@ -39,10 +39,15 @@ textarea {
 a
 {
     color: #484;
+    cursor: pointer;
 }
 a:visited
 {
     color: #666;
+}
+a:hover
+{
+    color: #3C3;
 }
 
 /* Styles for validation helpers
@@ -127,17 +132,6 @@ a:visited
     clear:both;
 }
 
-a.SnazzyLink
-{
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-a.SnazzyLink:hover
-{
-    color: #3C3;
-}
-
 #favExperiences
 {
     list-style: none;
@@ -183,7 +177,6 @@ a#hideLeftMenu, a#hideRightMenu
 {
     position: absolute;
     color: #FFF;
-    cursor: pointer;
 }
 
 a#hideLeftMenu
@@ -203,5 +196,16 @@ a#stopSounds
     position: absolute;
     top: 10px;
     right: 10px;
-    cursor: pointer;
+}
+
+a#SwitchExperiences
+{
+    float: right;
+    clear: both;
+    margin-top: -5px;
+}
+
+a.deleteButton
+{
+    float: right;
 }

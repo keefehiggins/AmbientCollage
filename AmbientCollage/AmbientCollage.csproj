@@ -129,6 +129,7 @@
     <Compile Include="Abstractions\ISecurity.cs" />
     <Compile Include="Abstractions\MongoDataAccessLayer.cs" />
     <Compile Include="Abstractions\SimpleSecurity.cs" />
+    <Compile Include="Abstractions\UserAwareController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

@@ -25,6 +25,7 @@ namespace AmbientCollage.Abstractions
 
         void AddExperience(List<AudioLink> audioLinks, ImageLink imageLink, User builtBy, string description, bool share);
         void AddExperience(Experience experience);
+        void DeleteExperience(Guid experienceId);
         IEnumerable<Experience> FindExperiences(string searchString);
         Experience GetExperienceById(Guid experienceId);
     }
@@ -106,6 +107,11 @@ namespace AmbientCollage.Abstractions
         public void AddExperience(Experience experience)
         {
             internalDal.AddExperience(experience);
+        }
+
+        public void DeleteExperience(Guid experienceId)
+        {
+            internalDal.DeleteExperience(experienceId);
         }
 
         public IEnumerable<Experience> FindExperiences(string searchString)

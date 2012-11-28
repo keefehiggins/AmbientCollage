@@ -132,6 +132,11 @@ namespace AmbientCollage.Abstractions
             experienceList.Add(experience);
         }
 
+        public void DeleteExperience(Guid experienceId)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Experience> FindExperiences(string searchString)
         {
             List<Experience> returnMe = null;

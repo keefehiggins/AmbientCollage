@@ -16,7 +16,6 @@
         }
     }
 
-
     function Experience() {
 
         var Experience = {};
@@ -128,18 +127,55 @@
         });
     }
 
-    var loadExperiences = function () {
+    var loadExperiences = function (onlyMine) {
         $.ajax({
             url: "LoadUserExperiences",
             cache: false,
             data: {
-                userId: $('#id').val()
+                userId: $('#id').val(),
+                onlyMine: onlyMine ? onlyMine : false
             },
             method: "GET",
             success: function (data) {
                 $('#experienceList').html(data);
             }
         });
+    }
+
+    var deleteExperience = function (targetId) {
+
+        var onlyMine = ($('#ExperiencesHeader').html() == "My Experiences");
+//        var toSend = {
+//                targetId: targetId
+//             };
+
+            $.ajax({
+                url: "DeleteUserExperience",
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    targetId: targetId
+                }),
+                success: function () {
+                    loadExperiences(onlyMine);
+                },
+                failure: function () {
+                    alert("FAIL");
+                }
+            });
+
+
+//        $.ajax({
+//            url: "DeleteUserExperience",
+//            dataType: 'json',
+//            contentType: 'application/json; charset=utf-8',
+//            data: JSON.stringify(toSend),
+//            method: "POST",
+//            success: function () {
+//                loadExperiences(true);
+//            }
+//        });
     }
 
     var toggleHidable = function (targetElement, container, hiddenBy) {
@@ -175,6 +211,19 @@
         }
     }
 
+    var switchExperiences = function () {
+        if ($('#ExperiencesHeader').html() == "All Experiences") {
+            loadExperiences(true);
+            $('#ExperiencesHeader').html("My Experiences");
+            $('#SwitchExperiences').html("Switch to All Experiences");
+        }
+        else {
+            loadExperiences(false);
+            $('#ExperiencesHeader').html("All Experiences");
+            $('#SwitchExperiences').html("Switch to My Experiences");
+        }
+    }
+
 
 
     $(document).ready(function () {
@@ -185,6 +234,10 @@
 
         $('#hideRightMenu').click(function () {
             toggleHidable($('#experienceList'), $('#rightMenu'), $(this));
+        });
+
+        $('#experienceList').on('click', '.deleteButton', function () {
+            deleteExperience($(this).attr('experience'));
         });
 
         CurrentExperience = Experience();
@@ -314,8 +367,10 @@
 
 <div id="rightMenu" class="Right DisplayBox">
     <a id="hideRightMenu">[ - ]</a>
-    <h2 class="Right Clear">All Experiences</h2>
     <a id="stopSounds" onclick="stopAllSounds();">Stop All Sounds</a>
+    <h2 class="Right Clear" id="ExperiencesHeader">All Experiences</h2>
+    <a id="SwitchExperiences" onclick="switchExperiences();">Switch To My Experiences</a>
+    
     <div id="experienceList" class="Right Clear">
 
     </div>

@@ -28,5 +28,11 @@ namespace AmbientCollage
         {
             HttpContext.Current.Session.Add("__MyAppSession", string.Empty);
         }
+
+        public AmbientCollage.Models.User GetCurrentUser()
+        {
+            return (AmbientCollage.Models.User)HttpContext.Current.Session["CurrentUser"];
+        }
     }
+
 }

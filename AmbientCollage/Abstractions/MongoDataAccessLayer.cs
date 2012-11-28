@@ -197,6 +197,15 @@ namespace AmbientCollage.Abstractions
             links.Insert(dehydratedExperience);
         }
 
+        public void DeleteExperience(Guid experienceId)
+        {
+            MongoCollection<ShortExperience> experiences = db.GetCollection<ShortExperience>("Experiences");
+
+            var query = Query.EQ("_id", experienceId);
+
+            experiences.Remove(query);
+        }
+
         public IEnumerable<Experience> FindExperiences(string searchString)
         {
             List<Experience> returnMe = null;
@@ -214,7 +223,7 @@ namespace AmbientCollage.Abstractions
         {
             Experience returnMe = null;
             MongoCollection<ShortExperience> users = db.GetCollection<ShortExperience>("Experiences");
-            var query = Query.EQ("id", experienceId);
+            var query = Query.EQ("_id", experienceId);
             returnMe = rehydrateExperience(users.Find(query).FirstOrDefault());
             return returnMe;
         }
