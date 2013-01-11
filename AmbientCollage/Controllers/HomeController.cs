@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using AmbientCollage.Models;
 using AmbientCollage.Abstractions;
+using System.Net;
+using System.IO;
 
 namespace AmbientCollage.Controllers
 {
@@ -47,11 +49,71 @@ namespace AmbientCollage.Controllers
             return View("Welcome", CurrentUser);
         }
 
+        private string EnsureStringIsTrackID(string fromUser, string soundCloudClientID)
+        {
+
+            
+            // = "098b86397e9b4932fd99618f0a0e99d2";
+            string toReturn = "";
+
+            int testInt = 0;
+            if (int.TryParse(fromUser, out testInt))
+            {
+                toReturn = fromUser; // already good to go since it's already an integer
+            }
+            else if (fromUser.Contains("://soundcloud.com"))
+            {
+                string toResolve = string.Format("http://api.soundcloud.com/resolve.json?url={0}&client_id={1}", fromUser, soundCloudClientID);
+
+                WebRequest request = WebRequest.Create(toResolve);
+                request.Method = "GET";
+                
+                using(WebResponse response = request.GetResponse())
+                {
+                    using(Stream dataStream = response.GetResponseStream())
+                    {
+                        StreamReader reader = new StreamReader(dataStream);
+                        string downloadedData = reader.ReadToEnd();
+
+                        var dynamicData = System.Web.Helpers.Json.Decode(downloadedData);
+
+                        if (dynamicData.kind == "track")
+                        {
+                            toReturn = dynamicData.id.ToString();
+                        }
+                        else
+                        {
+                            toReturn = "NOT A TRACK";
+                        }
+                        
+                    }
+                }
+
+            }
+
+            return toReturn;
+        }
+
         [HttpPost]
         public void CreateNewExperience(Experience experience)
         {
-            experience.Creator = CurrentUser;
-            dal.AddExperience(experience);
+            string currentClientId = System.Configuration.ConfigurationManager.AppSettings["SoundCloudClientID"];
+
+            try
+            {
+                experience.Creator = CurrentUser;
+                foreach (var sound in experience.Sounds)
+                {
+                    sound.LinkUrl = EnsureStringIsTrackID(sound.LinkUrl, currentClientId);
+                }
+
+                dal.AddExperience(experience);
+            }
+            catch (Exception ex)
+            {
+                //todo:  do something with this exception
+                Response.Redirect("Error");
+            }
             //return View("../Home/Welcome", experience.Creator);
         }
 
