@@ -40,3 +40,45 @@ c:\users\frankieavocado\documents\visual studio 2010\Projects\AmbientCollage\Amb
 c:\users\frankieavocado\documents\visual studio 2010\Projects\AmbientCollage\AmbientCollage.Tests\obj\Debug\AmbientCollage.Tests.csprojResolveAssemblyReference.cache
 c:\users\frankieavocado\documents\visual studio 2010\Projects\AmbientCollage\AmbientCollage.Tests\obj\Debug\AmbientCollage.Tests.dll
 c:\users\frankieavocado\documents\visual studio 2010\Projects\AmbientCollage\AmbientCollage.Tests\obj\Debug\AmbientCollage.Tests.pdb
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\AmbientCollage.Tests.dll.config
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\AmbientCollage.Tests.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\AmbientCollage.Tests.pdb
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\AmbientCollage.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Net.Http.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Net.Http.WebRequest.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.Helpers.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.Http.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.Http.WebHost.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.Mvc.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.Razor.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.WebPages.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\MongoDB.Driver.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.Optimization.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\MongoDB.Bson.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\WebGrease.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\Antlr3.Runtime.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\AmbientCollage.pdb
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Net.Http.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Net.Http.WebRequest.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.Helpers.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.Http.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.Http.WebHost.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.Mvc.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.Razor.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.WebPages.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\MongoDB.Driver.pdb
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\MongoDB.Driver.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\MongoDB.Bson.pdb
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\bin\Debug\MongoDB.Bson.xml
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\obj\Debug\AmbientCollage.Tests.csprojResolveAssemblyReference.cache
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\obj\Debug\AmbientCollage.Tests.dll
+C:\Users\Edmund\Desktop\AmbientCollage\AmbientCollage.Tests\obj\Debug\AmbientCollage.Tests.pdb

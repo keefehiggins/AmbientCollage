@@ -21,11 +21,11 @@ namespace AmbientCollage.Controllers
             if (currentUser != null)
                 return View(currentUser);
             else
-                return View("../Login");
+                return RedirectToAction("Login");
         }
 
         [HttpPost]
-        public ViewResult ReturningUser(User user)
+        public ActionResult ReturningUser(User user)
         {
             User setUser = dal.PerformLogin(user.Email, user.PasswordHash);
 
@@ -33,23 +33,23 @@ namespace AmbientCollage.Controllers
             {
                 // login success!
                 HttpContext.Session["CurrentUser"] = setUser;
-                return View("Welcome", setUser);
+                return RedirectToAction("Welcome");
             }
             else
             {
-                return View("../Login");
+                return RedirectToAction("Login");
             }
 
             
         }
 
-        public ViewResult NewUser(User user)
+        public ActionResult NewUser(User user)
         {
             dal.CreateNewUser(user.UserName, user.Email, user.PasswordHash);
             User createdUser = dal.PerformLogin(user.Email, user.PasswordHash);
             HttpContext.Session["CurrentUser"] = createdUser;
 
-            return View("Welcome", createdUser);
+            return RedirectToAction("Welcome");
         }
 
         [HttpPost]
@@ -57,7 +57,7 @@ namespace AmbientCollage.Controllers
         {
             experience.Creator = (User)HttpContext.Session["CurrentUser"];
             dal.AddExperience(experience);
-            return View("../Home/Welcome", experience.Creator);
+            return RedirectToAction("Welcome");
         }
 
         [HttpGet]
