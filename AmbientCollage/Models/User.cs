@@ -28,5 +28,4 @@ namespace AmbientCollage.Models
         public string Email { get; set; }
         public List<Experience> Favorites { get; set; }
     }
-
 }

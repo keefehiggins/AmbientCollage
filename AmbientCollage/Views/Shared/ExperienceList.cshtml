@@ -1,16 +1,34 @@
 ﻿@model List<AmbientCollage.Models.Experience>
+@{ var currentUser = (AmbientCollage.Models.User)HttpContext.Current.Session["CurrentUser"]; }
 
 <ul id="favExperiences">
+
 @foreach (AmbientCollage.Models.Experience exp in Model)
 {
     <li>
         
         @exp.Description
         <a class="BeginExperience SnazzyLink" 
-            imageLink="@exp.Visuals.LinkUrl" 
-            musicLink="@exp.Foreground.LinkUrl" 
-            backgroundLink="@exp.Background.LinkUrl"> - Begin Experience</a>
-    
+            imageLink="@exp.Visuals.LinkUrl"> - Begin Experience</a>
+
+        @if (@exp.Creator.id == currentUser.id)
+        {
+            <a class="deleteButton" experience="@exp.id"> [ delete ]</a>
+        }
+
+        <ul class="SoundList">
+            @foreach (var sound in exp.Sounds)
+            {
+                <li soundLink="@sound.LinkUrl">
+                    @sound.Description
+                </li>
+            } 
+        </ul>
+
+        <img class="ImageThumbnail" src="@exp.Visuals.LinkUrl" title="@exp.Visuals.Description", width="60px", height="40px" />
+        
+        <div style="clear:both"></div>
+
     </li>
 }
 </ul>

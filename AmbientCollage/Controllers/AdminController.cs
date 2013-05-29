@@ -8,7 +8,7 @@ using AmbientCollage.Abstractions;
 
 namespace AmbientCollage.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : UserAwareController
     {
         DataAccessLayer dal = new DataAccessLayer(new MongoDataAccessLayer(new SimpleSecurity()));
         //

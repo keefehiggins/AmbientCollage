@@ -15,16 +15,17 @@ namespace AmbientCollage.Abstractions
         User PerformLogin(string email, string password);
         void CreateNewUser(string userName, string email, string password);
 
-        AudioLink AddAudioLink(string link, User foundBy, string description, AudioLinkType audioType);
-        IEnumerable<AudioLink> FindAudioLinks(string searchString, AudioLinkType audioType);
+        AudioLink AddAudioLink(string link, User foundBy, string description);
+        IEnumerable<AudioLink> FindAudioLinks(string searchString);
         AudioLink GetAudioLinkById(Guid audioLinkId);
 
         ImageLink AddImageLink(string link, User foundBy, string description);
         IEnumerable<ImageLink> FindImageLinks(string searchString);
         ImageLink GetImageLinkById(Guid imageLinkId);
 
-        void AddExperience(Dictionary<AudioLinkType, AudioLink> audioLinks, ImageLink imageLink, User builtBy, string description);
+        void AddExperience(List<AudioLink> audioLinks, ImageLink imageLink, User builtBy, string description, bool share);
         void AddExperience(Experience experience);
+        void DeleteExperience(Guid experienceId);
         IEnumerable<Experience> FindExperiences(string searchString);
         Experience GetExperienceById(Guid experienceId);
     }
@@ -68,14 +69,14 @@ namespace AmbientCollage.Abstractions
             internalDal.CreateNewUser(userName, email, password);
         }
 
-        public AudioLink AddAudioLink(string link, User foundBy, string description, AudioLinkType audioType)
+        public AudioLink AddAudioLink(string link, User foundBy, string description)
         {
-            return internalDal.AddAudioLink(link, foundBy, description, audioType);
+            return internalDal.AddAudioLink(link, foundBy, description);
         }
 
-        public IEnumerable<AudioLink> FindAudioLinks(string searchString, AudioLinkType audioType)
+        public IEnumerable<AudioLink> FindAudioLinks(string searchString)
         {
-            return internalDal.FindAudioLinks(searchString, audioType);
+            return internalDal.FindAudioLinks(searchString);
         }
 
         public AudioLink GetAudioLinkById(Guid audioLinkId)
@@ -98,14 +99,19 @@ namespace AmbientCollage.Abstractions
             return internalDal.GetImageLinkById(imageLinkId);
         }
 
-        public void AddExperience(Dictionary<AudioLinkType, AudioLink> audioLinks, ImageLink imageLink, User builtBy, string description)
+        public void AddExperience(List<AudioLink> audioLinks, ImageLink imageLink, User builtBy, string description, bool share)
         {
-            internalDal.AddExperience(audioLinks, imageLink, builtBy, description);
+            internalDal.AddExperience(audioLinks, imageLink, builtBy, description, share);
         }
 
         public void AddExperience(Experience experience)
         {
             internalDal.AddExperience(experience);
+        }
+
+        public void DeleteExperience(Guid experienceId)
+        {
+            internalDal.DeleteExperience(experienceId);
         }
 
         public IEnumerable<Experience> FindExperiences(string searchString)
@@ -118,5 +124,5 @@ namespace AmbientCollage.Abstractions
             return internalDal.GetExperienceById(experienceId);
         }
     }
-    
+
 }

@@ -22,33 +22,34 @@ namespace AmbientCollage.Abstractions
             public ShortExperience(Experience toDehydrate)
             {
                 Creator = toDehydrate.Creator.id;
-                Foreground = toDehydrate.Foreground.id;
-                Background = toDehydrate.Background.id;
+                Sounds = toDehydrate.Sounds.Select(x => x.id).ToList();
                 Visuals = toDehydrate.Visuals.id;
                 Description = toDehydrate.Description;
+                Share = toDehydrate.Share;
                 id = toDehydrate.id;
             }
 
             public Guid id { get; set; }
             public Guid Creator { get; set; }
-            public Guid Foreground { get; set; }
-            public Guid Background { get; set; }
+            public List<Guid> Sounds { get; set; }
             public Guid Visuals { get; set; }
             public string Description { get; set; }
+            public bool Share { get; set; }
         }
 
         private Experience rehydrateExperience(ShortExperience dehydrated)
         {
             User user = GetUserByID(dehydrated.Creator);
-            AudioLink foreground = GetAudioLinkById(dehydrated.Foreground);
-            AudioLink background = GetAudioLinkById(dehydrated.Background);
+            List<AudioLink> sounds = new List<AudioLink>();
+
+            if (dehydrated.Sounds != null)
+            {
+                sounds = dehydrated.Sounds.Select(x => GetAudioLinkById(x)).ToList();
+            }
+
             ImageLink visuals = GetImageLinkById(dehydrated.Visuals);
 
-            Dictionary<AudioLinkType, AudioLink> fullAudio= new Dictionary<AudioLinkType,AudioLink>();
-            fullAudio.Add(AudioLinkType.Music, foreground);
-            fullAudio.Add(AudioLinkType.Background, background);
-
-            Experience rehydrated = new Experience(fullAudio, visuals, user, dehydrated.Description);
+            Experience rehydrated = new Experience(sounds, visuals, user, dehydrated.Description, dehydrated.Share);
             rehydrated.id = dehydrated.id;
             return rehydrated;
         }
@@ -113,22 +114,22 @@ namespace AmbientCollage.Abstractions
             users.Insert(toSave);
         }
 
-        public AudioLink AddAudioLink(string link, User foundBy, string description, AudioLinkType audioType)
+        public AudioLink AddAudioLink(string link, User foundBy, string description)
         {
             MongoCollection<AudioLink> links = db.GetCollection<AudioLink>("AudioLinks");
-            AudioLink toInsert = new AudioLink(link, description, foundBy.UserName, audioType);
+            AudioLink toInsert = new AudioLink(link, description, foundBy.UserName);
             links.Insert(toInsert);
             return toInsert;
         }
 
-        public IEnumerable<AudioLink> FindAudioLinks(string searchString, AudioLinkType audioType)
+        public IEnumerable<AudioLink> FindAudioLinks(string searchString)
         {
             List<AudioLink> returnMe = null;
             MongoCollection<AudioLink> links = db.GetCollection<AudioLink>("AudioLinks");
 
             returnMe = (from l in links.AsQueryable<AudioLink>()
                         orderby l.id
-                        where l.Description.Contains(searchString) && ( l.AudioType == audioType || audioType == AudioLinkType.Any)
+                        where l.Description.Contains(searchString)
                         select l).ToList();
 
             return returnMe;
@@ -173,10 +174,10 @@ namespace AmbientCollage.Abstractions
             return returnMe;
         }
 
-        public void AddExperience(Dictionary<AudioLinkType, AudioLink> audioLinks, ImageLink imageLink, User builtBy, string description)
+        public void AddExperience(List<AudioLink> audioLinks, ImageLink imageLink, User builtBy, string description, bool share)
         {
             MongoCollection<ShortExperience> links = db.GetCollection<ShortExperience>("Experiences");
-            ShortExperience dehydratedExperience = new ShortExperience(new Experience(audioLinks, imageLink, builtBy, description));
+            ShortExperience dehydratedExperience = new ShortExperience(new Experience(audioLinks, imageLink, builtBy, description, share));
             links.Insert(dehydratedExperience);
         }
 
@@ -184,12 +185,25 @@ namespace AmbientCollage.Abstractions
         {
             MongoCollection<ShortExperience> links = db.GetCollection<ShortExperience>("Experiences");
 
-            experience.Foreground = AddAudioLink(experience.Foreground.LinkUrl, experience.Creator, experience.Foreground.Description, AudioLinkType.Music);
-            experience.Background = AddAudioLink(experience.Background.LinkUrl, experience.Creator, experience.Background.Description, AudioLinkType.Background);
+            List<AudioLink> savedSounds = new List<AudioLink>();
+            foreach (AudioLink sound in experience.Sounds ?? new List<AudioLink>())
+            {
+                savedSounds.Add(AddAudioLink(sound.LinkUrl, experience.Creator, sound.Description));
+            }
+            experience.Sounds = savedSounds;
             experience.Visuals = AddImageLink(experience.Visuals.LinkUrl, experience.Creator, experience.Visuals.Description);
 
             ShortExperience dehydratedExperience = new ShortExperience(experience);
             links.Insert(dehydratedExperience);
+        }
+
+        public void DeleteExperience(Guid experienceId)
+        {
+            MongoCollection<ShortExperience> experiences = db.GetCollection<ShortExperience>("Experiences");
+
+            var query = Query.EQ("_id", experienceId);
+
+            experiences.Remove(query);
         }
 
         public IEnumerable<Experience> FindExperiences(string searchString)
@@ -209,7 +223,7 @@ namespace AmbientCollage.Abstractions
         {
             Experience returnMe = null;
             MongoCollection<ShortExperience> users = db.GetCollection<ShortExperience>("Experiences");
-            var query = Query.EQ("id", experienceId);
+            var query = Query.EQ("_id", experienceId);
             returnMe = rehydrateExperience(users.Find(query).FirstOrDefault());
             return returnMe;
         }
