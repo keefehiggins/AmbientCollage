@@ -330,36 +330,42 @@
             
         <div id="ErrorDescription"></div>
 
-        <fieldset id="OverviewFieldSet">
-            <legend>Experience Info:</legend>
-            <p>Title: <input type="text" id="ExperienceTitle" onchange="CurrentExperience.SetInfo($('#ExperienceTitle').val());" /></p>
-        </fieldset>
+        <div class="TextWrapper">
+            <img src="@Url.Content("~/Content/images/icons/pencil_icon16.png")"/>
+		    <input type="text" id="ExperienceTitle" onchange="CurrentExperience.SetInfo($('#ExperienceTitle').val());" placeholder="Collage Title" style="width: 330px;" />
+	    </div>
+        
 
-        <fieldset id="ImageFieldSet">
-            <legend>Image Details:</legend>
-            <p>Image URL: <input type="text" id="ImageURL" onchange="CurrentExperience.SetVisuals($('#ImageURL').val(), $('#ImageDescription').val());"/></p>
-            <p>Description:  <input type="text" id="ImageDescription" onchange="CurrentExperience.SetVisuals($('#ImageURL').val(), $('#ImageDescription').val());" /></p>
-        </fieldset>
+        <div id="ImageBlock StandardBlock">
+            <div class="thumbnailImage">
 
-        <fieldset id="SoundFieldSet">
-            <legend>Audio Link Details:</legend>
-            <p>SoundCloud URL or Track #: <input type="text" id="SoundCloudTrack" /></p>
-            <p>Description: <input type="text" id="AudioDescription" /></p>
-            <a id="AddSound" onclick="addToExperience();">Add To Sounds</a>
-        </fieldset>
+            </div>
+            <div class="TextWrapper">
+                <img src=""/>  @* @Url.Content("") *@
+                <input type="text" id="ImageURL" onchange="CurrentExperience.SetVisuals($('#ImageURL').val(), $('#ImageDescription').val());" placeholder="URL of Image"/>
+            </div>
+            <div class="TextWrapper">
+                <img src=""/>  @* @Url.Content("") *@
+                <input type="text" id="ImageDescription" onchange="CurrentExperience.SetVisuals($('#ImageURL').val(), $('#ImageDescription').val());" placeholder="Helpful Description" />
+            </div>
+        </div>
 
-        <fieldset class="ExperienceFieldSet">
-            <legend>Experience so far:</legend>
-            <h3 id="ExperienceDesc"></h3>
-            Background Image:
-            <p id="ExperienceImageDesc"></p>
-            Simultaneous Audio:
+        <div id="AudioBlock StandardBlock">
             <ul id="SoundMix">
                 
             </ul>
-            <a id="SaveExperience" onclick="saveExperience();">Create This Experience</a>
-        </fieldset>
-
+            <div class="TextWrapper">
+                <img src=""/>  @* @Url.Content("") *@
+                <input type="text" id="SoundCloudTrack" placeholder="Soundcloud URL or Track #" />
+            </div>
+            <div class="TextWrapper">
+                <img src=""/>  @* @Url.Content("") *@
+                <input type="text" id="AudioDescription" placeholder="Description of Audio Track"/>
+            </div>
+            <a id="AddSound" onclick="addToExperience();">Add To Sounds</a>
+        </div>
+        
+        <a id="SaveExperience" onclick="saveExperience();">Create This Experience</a>
 
         @*@Html.Partial("NewExperience", new AmbientCollage.Models.Experience())*@
     </div>
