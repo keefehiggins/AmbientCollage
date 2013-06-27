@@ -157,6 +157,7 @@
     <Content Include="Content\images\icons\link_icon16.png" />
     <Content Include="Content\images\icons\music_icon16.png" />
     <Content Include="Content\images\icons\pencil_icon16.png" />
+    <Content Include="Content\images\icons\sq_plus_icon16.png" />
     <Content Include="Content\sc-player-minimal.css" />
     <Content Include="Content\sc-player-minimal\colors.css" />
     <Content Include="Content\sc-player-minimal\img\pause-hover.png" />

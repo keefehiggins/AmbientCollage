@@ -336,33 +336,44 @@
 	    </div>
         
 
-        <div id="ImageBlock StandardBlock">
-            <div class="thumbnailImage">
+        <div class="ImageBlock StandardBlock">
+            <h3>Background Image</h3>
+            <div class="ImageThumbnail RoundedEdges">
 
             </div>
             <div class="TextWrapper">
-                <img src=""/>  @* @Url.Content("") *@
-                <input type="text" id="ImageURL" onchange="CurrentExperience.SetVisuals($('#ImageURL').val(), $('#ImageDescription').val());" placeholder="URL of Image"/>
+                <img src="@Url.Content("~/Content/images/icons/link_icon16.png")"/>
+                <input type="text" id="ImageURL" onchange="CurrentExperience.SetVisuals($('#ImageURL').val(), $('#ImageDescription').val());" placeholder="URL of Image" style="width: 227px;"/>
             </div>
             <div class="TextWrapper">
-                <img src=""/>  @* @Url.Content("") *@
-                <input type="text" id="ImageDescription" onchange="CurrentExperience.SetVisuals($('#ImageURL').val(), $('#ImageDescription').val());" placeholder="Helpful Description" />
+                <img src="@Url.Content("~/Content/images/icons/pencil_icon16.png")"/>
+                <input type="text" id="ImageDescription" onchange="CurrentExperience.SetVisuals($('#ImageURL').val(), $('#ImageDescription').val());" placeholder="Helpful Description" style="width: 227px;"/>
             </div>
         </div>
 
-        <div id="AudioBlock StandardBlock">
-            <ul id="SoundMix">
-                
-            </ul>
-            <div class="TextWrapper">
-                <img src=""/>  @* @Url.Content("") *@
-                <input type="text" id="SoundCloudTrack" placeholder="Soundcloud URL or Track #" />
+        <div class="AudioBlock StandardBlock">
+            <h3>Sound Mix</h3>
+            <div id="SoundMixContainer">
+                <ul id="SoundMix">
+                    <li>
+                        <img src="@Url.Content("~/Content/images/icons/music_icon16.png")" /> <span> No Sounds Yet</span>
+                    </li>
+                </ul>
+                <div class="TextWrapper">
+                    <img src="@Url.Content("~/Content/images/icons/link_icon16.png")"/>
+                    <input type="text" id="SoundCloudTrack" placeholder="Soundcloud URL or Track #" style="width: 220px;" />
+                </div>
+                <div style="clear:both;"></div>
+                <div class="TextWrapper">
+                    <img src="@Url.Content("~/Content/images/icons/pencil_icon16.png")"/>
+                    <input type="text" id="AudioDescription" placeholder="Description of Audio Track" style="width: 220px;"/>
+                </div>
+                <a id="AddSound" onclick="addToExperience();">
+                    <img src="@Url.Content("~/Content/images/icons/sq_plus_icon16.png")"/>
+                    Add To Sounds
+                </a>
             </div>
-            <div class="TextWrapper">
-                <img src=""/>  @* @Url.Content("") *@
-                <input type="text" id="AudioDescription" placeholder="Description of Audio Track"/>
-            </div>
-            <a id="AddSound" onclick="addToExperience();">Add To Sounds</a>
+            
         </div>
         
         <a id="SaveExperience" onclick="saveExperience();">Create This Experience</a>
