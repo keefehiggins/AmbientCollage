@@ -35,9 +35,11 @@
             return this.internalCurrent;
         };
 
-        Experience.AddSound = function (toAdd) {
+        Experience.AddSound = function (toAdd, callBack) {
             this.internalCurrent.Sounds.push(toAdd);
             this.RefreshDisplay();
+            var onComplete = callBack || function () { };
+            onComplete();
         };
 
         Experience.SetInfo = function (description) {
@@ -86,15 +88,23 @@
                 {
                     LinkUrl: $('#SoundCloudTrack').val(),
                     Description: $('#AudioDescription').val()
-                }
+                },
+                closeSoundAddition()
             );
-
-            $('#AudioDescription').val('');
-            $('#SoundCloudTrack').val('');
         }
         else {
             $('#ErrorDescription').html('Please fill out all required fields to add an audio link.');
         }
+    }
+
+    var showSoundAddition = function () {
+        $('#SoundAddition').slideDown(200);
+    }
+
+    var closeSoundAddition = function () {
+        $('#SoundAddition').slideUp(200);
+        $('#SoundCloudTrack').val('');
+        $('#AudioDescription').val('');
     }
 
     var allSoundFieldsCompleted = function () {
@@ -106,6 +116,10 @@
         });
         return allGood;
     }
+
+    var previewImageThumbnail = function (imageUrl) {
+        $('#BackgroundImagePreview').css('background-image', 'url("' + imageUrl + '")');
+    };
 
     var saveExperience = function () {
 
@@ -240,6 +254,10 @@
             deleteExperience($(this).attr('experience'));
         });
 
+        $('#ImageURL').on('change', function () {
+            previewImageThumbnail($(this).val());
+        });
+
         CurrentExperience = Experience();
 
         $('#experienceList').on('click', '.BeginExperience', function () {
@@ -338,7 +356,7 @@
 
         <div class="ImageBlock StandardBlock">
             <h3>Background Image</h3>
-            <div class="ImageThumbnail RoundedEdges">
+            <div id="BackgroundImagePreview" class="ImageThumbnail RoundedEdges">
 
             </div>
             <div class="TextWrapper">
@@ -359,19 +377,38 @@
                         <img src="@Url.Content("~/Content/images/icons/music_icon16.png")" /> <span> No Sounds Yet</span>
                     </li>
                 </ul>
-                <div class="TextWrapper">
-                    <img src="@Url.Content("~/Content/images/icons/link_icon16.png")"/>
-                    <input type="text" id="SoundCloudTrack" placeholder="Soundcloud URL or Track #" style="width: 220px;" />
+                <ul>
+                    <li>
+                        <a id="AddSound" onclick="showSoundAddition();">
+                            <img src="@Url.Content("~/Content/images/icons/round_plus_icon16.png")"/>
+                             Add A Sound
+                        </a>
+                    </li>
+                </ul>
+                <div id="SoundAddition">
+                    <div style="clear:both; width: 64%; margin-left: auto; margin-right: auto;">
+                        <div class="DarkInlineTextWrapper">
+                            <img src="@Url.Content("~/Content/images/icons/link_icon16.png")"/>
+                            <input type="text" id="SoundCloudTrack" placeholder="Soundcloud URL or Track #" style="width: 220px;" />
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="DarkInlineTextWrapper">
+                            <img src="@Url.Content("~/Content/images/icons/pencil_icon16.png")"/>
+                            <input type="text" id="AudioDescription" placeholder="Description of Audio Track" style="width: 220px;"/>
+                        </div>
+                    </div>
+                    <div style="clear:both; width: 64%; margin-left: auto; margin-right: auto; padding: 5px;">
+                        <a id="CancelAddSound" style="float: left;" onclick="closeSoundAddition();">
+                            <img src="@Url.Content("~/Content/images/icons/round_minus_icon16.png")"/>
+                             Cancel
+                        </a>
+                        <a id="SaveAddSound"  style="float: right;" onclick="addToExperience();">
+                            <img src="@Url.Content("~/Content/images/icons/round_checkmark_icon16.png")"/>
+                             Save
+                        </a>
+                        <div style="clear:both;"></div>
+                    </div>
                 </div>
-                <div style="clear:both;"></div>
-                <div class="TextWrapper">
-                    <img src="@Url.Content("~/Content/images/icons/pencil_icon16.png")"/>
-                    <input type="text" id="AudioDescription" placeholder="Description of Audio Track" style="width: 220px;"/>
-                </div>
-                <a id="AddSound" onclick="addToExperience();">
-                    <img src="@Url.Content("~/Content/images/icons/sq_plus_icon16.png")"/>
-                    Add To Sounds
-                </a>
             </div>
             
         </div>

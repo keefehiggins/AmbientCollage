@@ -93,6 +93,12 @@ div.ImageThumbnail
     color: #444;
 }
 
+#BackgroundImagePreview
+{
+    background-image: url("");
+    background-size: contain;
+}
+
 .RoundedEdges
 {
     -webkit-border-radius: 5px;
@@ -123,12 +129,35 @@ div.ImageThumbnail
 	box-shadow: 2px 2px 2px #222;
 }
 
+div.DarkInlineTextWrapper
+{
+    padding: 2px;
+    border: 1px dashed #444;
+    display: inline-block;
+    background: rgb(0,0,0); /* Old browsers */
+}
+
 div.TextWrapper input[type=text]
 {
     background-color: transparent;
     border: none;
     border-bottom: 1px solid transparent;
     color: #CCC;
+}
+
+#SoundAddition
+{
+    display: none;
+}
+
+div.DarkInlineTextWrapper input[type=text]
+{
+    background-color: transparent;
+    font-family: 'PT Sans Narrow', sans-serif;
+    border: none;
+    color: #fff;
+    font-size: .85em;
+    padding: 1px;
 }
 
 div.TextWrapper input[type=text]:focus, div.TextWrapper input[type=text]:focus:hover
