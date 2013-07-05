@@ -351,6 +351,7 @@ div#leftMenu, div#rightMenu
     position: relative;
     overflow: hidden;
     min-height: 30px;
+    display: inline-block;
 }
 
 

@@ -51,8 +51,6 @@ namespace AmbientCollage.Controllers
 
         private string EnsureStringIsTrackID(string fromUser, string soundCloudClientID)
         {
-
-            
             // = "098b86397e9b4932fd99618f0a0e99d2";
             string toReturn = "";
 

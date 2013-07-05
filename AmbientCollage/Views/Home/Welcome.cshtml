@@ -205,6 +205,7 @@
                     opacity: '0'
                 }, 500);
                 hiddenBy.html('[ + ]');
+                targetElement.css('display', 'inline-block');
             });
         }
         else {
@@ -220,6 +221,7 @@
 
                     hiddenBy.html('[ - ]');
                     targetElement.css('height', 'auto');
+                    targetElement.css('display', 'inline-block');
                 });
             });
         }
@@ -269,9 +271,6 @@
                 allLinks.push($(this).attr('soundlink'));
             });
 
-            //            var musicLink = '/tracks/' + clicked.attr('musicLink');
-            //            var backgroundLink = '/tracks/' + clicked.attr('backgroundLink');
-
             $('#centerContent').stop().animate(
                 { opacity: "0" },
                 500,
@@ -301,27 +300,6 @@
                                         currentlyPlaying.push(sound);
                                     });
                                 }
-
-                                //                                clicked.each('.')
-
-                                //                                SC.stream(musicLink, function (sound) {
-                                //                                    sound.play({
-                                //                                        onfinish: stopAllSounds(),
-                                //                                        volume: 30
-                                //                                    });
-                                //                                    currentlyPlaying.push(sound);
-                                //                                });
-
-                                //                                SC.stream(backgroundLink, function (sound) {
-                                //                                    sound.play({
-                                //                                        loops: 60,
-                                //                                        volume: 100
-                                //                                    });
-                                //                                    currentlyPlaying.push(sound);
-                                //                                });
-
-
-
                             }
                         );
                 }
@@ -413,7 +391,10 @@
             
         </div>
         
-        <a id="SaveExperience" onclick="saveExperience();">Create This Experience</a>
+        <a id="SaveExperience" onclick="saveExperience();">
+            <img src="@Url.Content("~/Content/images/icons/round_plus_icon16.png")"/>
+            Create This Experience
+        </a>
 
         @*@Html.Partial("NewExperience", new AmbientCollage.Models.Experience())*@
     </div>
