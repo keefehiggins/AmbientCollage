@@ -391,3 +391,49 @@ a.deleteButton
 {
     float: right;
 }
+
+div.AlchemySlider
+{
+    overflow: hidden;
+    position: relative;
+    height: 0px;
+    margin-left: 100px;
+    padding: 0px;
+    width: 600px;
+    border-right: 1px solid #ccc;
+}
+
+div.AlchemySlider div.AlchemySliderShield
+{
+    width: 200%;
+}
+
+div.AlchemySlider div.AlchemySliderShield ul
+{
+    display: block;
+    list-style: none;
+    width: auto;
+    padding: 0px;
+    height: 20px;
+    margin: 0px;
+    text-overflow: ellipsis;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    color: #ff5e00;
+}
+
+div.AlchemySlider div.AlchemySliderShield ul li
+{
+    float: left;
+    display: block;
+    height: 18px;
+    font-size: 12pt;
+    margin-left: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+div.AlchemySlider div.AlchemySliderShield ul li a
+{
+    margin-left: 5px;
+}

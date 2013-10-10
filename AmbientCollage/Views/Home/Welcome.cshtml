@@ -11,6 +11,10 @@
     var CurrentExperience;
 
     function stopAllSounds() {
+        $('#infoTicker').html('')
+        $('#tickerContainer').slideUp(400, function () {
+            
+        });
         for (var i = 0; i < currentlyPlaying.length; i++) {
             currentlyPlaying[i].stop();
         }
@@ -271,7 +275,7 @@
 
             //            var musicLink = '/tracks/' + clicked.attr('musicLink');
             //            var backgroundLink = '/tracks/' + clicked.attr('backgroundLink');
-
+            
             $('#centerContent').stop().animate(
                 { opacity: "0" },
                 500,
@@ -288,9 +292,16 @@
                                 //Clear all current sounds before adding new ones.
                                 stopAllSounds();
 
+                                $('#infoTicker').html('');
+
                                 for (var i = 0; i < allLinks.length; i++) {
 
                                     var audioLink = '/tracks/' + allLinks[i];
+
+                                    SC.get(audioLink, function (track) {
+                                        var addText = "<li>" + track.user.username + ": <a href='" + track.permalink_url + "'>" + track.title + "</a></li>";
+                                        $('#infoTicker').append(addText);
+                                    });
 
                                     SC.stream(audioLink, function (sound) {
                                         sound.play({
@@ -300,7 +311,15 @@
                                         });
                                         currentlyPlaying.push(sound);
                                     });
+
+                                    if (i == allLinks.length - 1) {
+                                        $('#tickerContainer').slideDown(400, function () {
+                                            $('.AlchemySlider').alchemySlide({widthSetting: "400"});
+                                        });
+                                    }
                                 }
+
+                                
 
                                 //                                clicked.each('.')
 
@@ -339,6 +358,22 @@
 
 @section Title{
     Welcome @Model.UserName!  Here you can create new experiences, or enjoy already existing ones.
+}
+
+@section Ticker{
+    <div style="width: 60%; margin-left: auto; margin-right: auto; min-width: 705px;">
+        <div style="float: left; font-size: 12pt;">Now Playing . . .</div>
+        <div class="AlchemySlider">
+		    <div class="AlchemySliderShield">
+                <ul id="infoTicker">
+
+                </ul>   
+            </div>
+	    </div>
+        <div id="dotsList">
+
+	    </div>
+    </div>
 }
 
 <div id="leftMenu" class="Left DisplayBox HideMe Hidable">
